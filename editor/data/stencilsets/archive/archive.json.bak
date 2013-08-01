@@ -1,0 +1,3199 @@
+{
+	"title":"Archive BPMN 2.0",
+	"namespace":"http://b3mn.org/stencilset/archive#",
+	"description":"This is the Archive BPMN 2.0 stencil set specification.",
+ 	"propertyPackages": [
+ 		{
+ 			"name":"baseAttributes",
+ 			"properties": [
+				{
+					"id":"name",
+					"type":"String",
+					"title":"Name",
+					"value":"",
+					"description":"The descriptive name of the BPMN element.",
+ 					"readonly":false,
+					"optional":true,
+					"length":"",
+					"wrapLines" : true,
+					"refToView":"text_name"	
+				},
+				{
+					"id":"documentation",
+					"type":"Text",
+					"title":"Documentation",
+ 					"value":"",
+					"description":"This attribute is used to annotate the BPMN element, such as descriptions and other documentation.",
+ 					"readonly":false,
+					"optional":true,
+					"length":"",
+					"wrapLines":true,
+					"simulation" : true
+				}
+ 			]
+ 		},
+		{
+			"name" : "bgColor",
+			"properties" : [
+				{
+					"id":"bgcolor",
+					"type":"Color",
+					"title":"BackgroundColor",
+ 					"value":"#ffffff",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView": "fill_el",
+					"fill":true,
+					"stroke":false
+				}
+			]
+		},
+		{
+			"name" : "condition",
+			"properties" : [
+				{
+					"id":"condition",
+					"type":"String",
+					"title":"Condition",
+ 					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"popular":true
+				}
+			]
+		},
+		{
+			"name":"boundaryevent",
+			"properties":[
+				{
+					"id":"boundarycancelactivity",
+					"type":"Boolean",
+					"title":"CancelActivity",
+ 					"value":"",
+					"description":"Denotes whether the activity should be cancelled or not, i.e., whether the boundary catch event acts as an error or an escalation. If the activity is not cancelled, multiple instances of that handler can run concurrently.",
+ 					"readonly":false,
+					"optional":true
+				}
+			]
+		},
+		{
+			"name" : "diagram",
+			"properties" : [
+				{
+					"id":"version",
+					"type":"String",
+					"title":"Version",
+					"value":"",
+					"description":"This defines the Version number of the Diagram.",
+ 
+					"readonly":false,
+					"optional":true,
+					"length":"50"
+				},
+				{
+					"id":"author",
+					"type":"String",
+					"title":"Author",
+ 
+					"value":"",
+					"description":"This holds the name of the author of the Diagram.",
+ 
+					"readonly":false,
+					"optional":true,
+					"length":"50"
+				},
+				{
+					"id":"language",
+					"type":"String",
+					"title":"Language",
+ 
+					"value":"English",
+ 
+					"description":"This holds the name of the language in which text is written.",
+ 
+					"readonly":false,
+					"optional":true,
+					"length":"50"
+				},
+				{	
+					"id":"namespaces",
+					"type":"Complex",
+					"title":"Namespaces",
+					"value":"",
+					"description":"Additional namespaces and theire prefixes used in the diagram., ",
+ 
+					"readonly":false,
+					"optional":true,
+					"complexItems": [
+						{
+							"id":"prefix",
+							"name":"Prefix",
+							"type":"String",
+							"value":"",
+							"width":100,
+							"optional":false 
+						},
+						{
+							"id":"url",
+							"name":"URL",
+							"type":"String",
+							"value":"",
+							"width":200,
+							"optional":false 
+						}
+					]
+				},
+				{
+					"id":"targetnamespace",
+					"type":"String",
+					"title":"Target Namespace",
+ 
+					"value":"http://www.omg.org/bpmn20",
+					"description":"Defines the XML namespace of the elements inside the document.",
+ 
+					"readonly":false,
+					"optional":true,
+					"length":"50"
+				},
+				{
+					"id":"expressionlanguage",
+					"type":"String",
+					"title":"ExpressionLanguage",
+ 
+					"value":"http://www.w3.org/1999/XPath",
+					"description":"A Language may be provided so that the syntax of expressions used in the Diagram can be understood.",
+ 
+					"readonly":false,
+					"optional":true,
+					"length":"50"
+				},
+				{
+					"id":"typelanguage",
+					"type":"String",
+					"title":"TypeLanguage",
+ 
+					"value":"http://www.w3.org/2001/XMLSchema",
+					"description":"This attribute identifies the type system used by the elements of this Definition.",
+ 
+					"readonly":false,
+					"optional":true,
+					"length":"50"
+				},
+				{
+					"id":"creationdate",
+					"type":"Date",
+					"title":"CreationDate",
+ 
+					"value":"",
+					"description":"This defines the date on which the Diagram was created.",
+ 
+					"readonly":false,
+					"optional":true,
+					"dateFormat":"j/m/y"
+				},
+				{
+					"id":"modificationdate",
+					"type":"Date",
+					"title":"ModificationDate",
+ 
+					"value":"",
+					"description":"This defines the date on which the Diagram was last modified.",
+ 
+					"readonly":false,
+					"optional":true,
+					"dateFormat":"j/m/y"
+				}
+			]
+		},
+		{
+			"name": "flowElement",
+			"properties" : [
+				{
+					"id":"categories",
+					"type":"String",
+					"title":"Categories",
+ 
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"50",
+					"wrapLines":true
+				}
+			]
+		},
+		{
+			"name" : "itemAwareElement",
+			"properties" : [
+				{
+					"id" : "itemsubjectref",
+					"type" : "String",
+					"title" : "ItemSubjectRef",
+ 
+					"description" : "Specification of the items that are stored or conveyed by the ItemAwareElement",
+ 
+					"readonly" : false,
+					"optional" : true,
+					"length" : 50,
+					"wrapLines" : true
+				},
+				{
+					"id" : "datastate",
+					"type" : "String",
+					"title" : "DataState",
+ 
+					"description" : "A reference to the DataState, which defines certain states for the data contained in the item.",
+ 
+					"readonly" : false,
+					"optional" : true,
+					"length" : 50,
+					"wrapLines" : true
+				}
+			]
+		},
+		{
+			"name":"properties",
+			"properties": [
+				{
+					"id":"properties",
+					"type":"Complex",
+					"title":"Properties",
+ 
+					"value":"",
+					"description":"Modeler-defined properties MAY be added to an Activity. These properties are local to the Activity. (e.g., Add Customer.Customer Name).",
+ 
+					"readonly": 	false,
+					"optional": 	false,
+					"complexItems": [
+						{
+							"id":"name",
+							"name":"Name",
+							"type":"String",
+							"value":"",
+							"width":100,
+							"optional":false 
+						},
+						{
+							"id":"datastate",
+							"name":"DataState",
+ 
+							"type":"String",
+							"value":"",
+							"width":80,
+							"optional":true
+						},
+						{
+							"id":"itemkind",
+							"name":"ItemKind",
+ 
+							"type":"Choice",
+							"value":"Information",
+							"items" : [
+					           {
+					        	   "id":"information",
+					        	   "title":"Information",
+					        	   "value":"Information"
+					           },
+					           {
+					        	   "id":"physical",
+					        	   "title":"Physical",
+					        	   "value":"Physical"
+					           }
+							           
+							],
+							"width":80,
+							"optional":true
+						},
+						{
+							"id":"structure",
+							"name":"Structure",
+ 
+							"type":"String",
+							"value":"",
+							"width":100,
+							"optional":true
+						},
+						{
+							"id":"iscollection",
+							"name":"isCollection",
+ 
+							"type":"Boolean",
+							"value":false,
+							"width":50,
+							"optional":true
+						}
+					]
+				}
+			]
+		},
+		{
+			"name" : "iospecification",
+			"properties" : [
+				{
+					"id":"datainputset",
+					"type":"Complex",
+					"title":"DataInputSet",
+ 
+					"value":"",
+					"description":"An InputSet is a collection of DataInput elements that together define a valid set of data inputs.",
+ 
+					"readonly":false,
+					"optional":true,
+					"complexItems": [
+						{
+							"id":"name",
+							"name":"Name",
+							"type":"String",
+							"value":"",
+							"width":100,
+							"optional":false 
+						},
+						{
+							"id":"optional",
+							"name":"Optional",
+							"type":"Boolean",
+							"value":false,
+							"width":50,
+							"optional":true
+						},
+						{
+							"id":"whileexecuting",
+							"name":"WhileExecuting",
+ 
+							"type":"Boolean",
+							"value":false,
+							"width":80,
+							"optional":true
+						}
+					]
+				},            
+				{
+					"id":"dataoutputset",
+					"type":"Complex",
+					"title":"DataOutputSet",
+ 
+					"value":"",
+					"description":"An OutputSet is a collection of DataOutputs elements that together may be produced as output from an Activity or Event.",
+ 
+					"readonly":false,
+					"optional":true,
+					"complexItems": [
+						{
+							"id":"name",
+							"name":"Name",
+							"type":"String",
+							"value":"",
+							"width":100,
+							"optional":false 
+						},
+						{
+							"id":"optional",
+							"name":"Optional",
+							"type":"Boolean",
+							"value":false,
+							"width":50,
+							"optional":true
+						},
+						{
+							"id":"whileexecuting",
+							"name":"WhileExecuting",
+ 
+							"type":"Boolean",
+							"value":false,
+							"width":80,
+							"optional":true
+						}
+					]
+				}
+			]
+		},
+		{
+			"name" : "activity",
+			"properties": [
+				{
+					"id":"startquantity",
+					"type":"Integer",
+					"title":"StartQuantity",
+ 
+					"value":1,
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"min":"1"
+				},
+				{
+					"id":"completionquantity",
+					"type":"Integer",
+					"title":"CompletionQuantity",
+ 
+					"value":1,
+					"description":"Defines the number of tokens that must be generated from the activity",
+ 
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"min":"1"
+				},
+				{
+					"id":"isforcompensation",
+					"type":"Boolean",
+					"title":"Is for Compensation",
+ 
+					"value":false,
+					"description":"A flag that identifies whether this activity is intended for the purposes of compensation.",
+ 
+					"readonly":false,
+					"optional":true,
+					"refToView":"compensation"
+				},
+				{
+					"id":"assignments",
+					"type":"Complex",
+					"title":"Assignments",
+ 
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"complexItems": [
+						{
+							"id":"to",
+							"name":"To",
+ 
+							"type":"String",
+							"value":"",
+							"width":100,
+							"optional":false 
+						},
+						{
+							"id":"from",
+							"name":"From",
+ 
+							"type":"String",
+							"value":"",
+							"width":100,
+							"optional":false
+						},
+						{
+							"id":"assigntime",
+							"name":"AssignTime",
+ 
+							"type":"Choice",
+							"value":"Start",
+							"width":100,
+							"optional":true,
+							"items": [
+								{
+									"id":"c1",
+									"title":"Start",
+									"value":"Start",
+									"refToView":""
+								},
+								{
+									"id":"c2",
+									"title":"End",
+ 
+									"value":"End",
+									"refToView":""
+								}
+							]
+						}
+					]
+				},
+				{
+					"id":"callacitivity",
+					"type":"Boolean",
+					"title":"is a Call Activity",
+ 
+					"value":false,
+					"description":"a Call Activity is a wrapper for a globally defined Sub-Process that is reused in the current process.",
+					"readonly":false,
+					"optional":"true",
+					"refToView":"callActivity"
+				}
+			]
+		},
+		{
+			"name":"operation",
+			"properties": [
+				{
+					"id":"operationname",
+					"type":"String",
+					"title":"OperationName",
+ 
+					"value":"",
+					"description":"The descriptive name for the operation element.",
+ 
+					"readonly":false,
+					"optional":"true"
+				},
+				{
+					"id":"inmessagename",
+					"type":"String",
+					"title":"InMessageName",
+ 
+					"value":"",
+					"description":"The descriptive name for the InMessage element",
+ 
+					"readonly":false,
+					"optional":"true"
+				},
+				{
+					"id":"inmsgitemkind",
+					"type":"Choice",
+					"title":"InMessageItemKind",
+ 
+					"value":"Information",
+					"description":"This defines the nature of the Item. Possible values are Physical or Information. The default value is Information.",
+ 
+					"readonly":false,
+					"optional":true,
+					"items": [
+						{
+							"id":"c1",
+							"title":"Physical",
+							"value":"Physical"
+						},
+						{
+							"id":"c2",
+							"title":"Information",
+							"value":"Information"
+						}
+					]
+				},
+				{
+					"id":"inmsgstructure",
+					"type":"String",
+					"title":"InMessageStructure",
+ 
+					"value":"",
+					"description":"This defines the nature of the Item. Possible values are Physical or Information. The default value is Information.",
+ 
+					"readonly":false,
+					"optional":true
+				},
+				{
+					"id":"inmsgimport",
+					"type":"Complex",
+					"title":"InMessageImport",
+ 
+					"value":"",
+					"description":"Identifies the location of the data structure and its format. If the importType attribute is left unspecified, the typeLanguage specified in the Definitions is assumed.",
+ 
+					"readonly":false,
+					"optional":true,
+					"complexItems": [
+						{
+				        	"id":"c1",
+				        	"type":"String",
+				        	"width":200,
+				        	"value":"",
+				        	"name":"ImportType",
+ 
+				        },
+						{
+				        	"id":"c2",
+				        	"type":"String",
+				        	"width":100,
+				        	"value":"",
+				        	"name":"Location"
+				        },
+						{
+				        	"id":"c3",
+				        	"type":"String",
+				        	"width":200,
+				        	"value":"",
+				        	"name":"Namespace",
+ 
+				        }
+					]
+				},
+				{
+					"id":"inmsgiscollection",
+					"type":"Boolean",
+					"title":"InMessageIsCollection",
+ 
+					"value":false,
+					"description":"Setting this flag to true indicates that the actual data type is a collection.",
+ 
+					"readonly":false,
+					"optional":true
+				},
+				{
+					"id":"outmessagename",
+					"type":"String",
+					"title":"OutMessageName",
+ 
+					"value":"",
+					"description":"The descriptive name for the OutMessage element",
+ 
+					"readonly":false,
+					"optional":"true"
+				},
+				{
+					"id":"outmsgitemkind",
+					"type":"Choice",
+					"title":"OutMessageItemKind",
+ 
+					"value":"Information",
+					"description":"This defines the nature of the Item. Possible values are Physical or Information. The default value is Information.",
+ 
+					"readonly":false,
+					"optional":true,
+					"items": [
+						{
+							"id":"c1",
+							"title":"Physical",
+							"value":"Physical"
+						},
+						{
+							"id":"c2",
+							"title":"Information",
+							"value":"Information"
+						}
+					]
+				},
+				{
+					"id":"outmsgstructure",
+					"type":"String",
+					"title":"OutMessageStructure",
+ 
+					"value":"",
+					"description":"This defines the nature of the Item. Possible values are Physical or Information. The default value is Information.",
+ 
+					"readonly":false,
+					"optional":true
+				},
+				{
+					"id":"outmsgimport",
+					"type":"Complex",
+					"title":"OutMessageImport",
+ 
+					"value":"",
+					"description":"Identifies the location of the data structure and its format. If the importType attribute is left unspecified, the typeLanguage specified in the Definitions is assumed.",
+ 
+					"readonly":false,
+					"optional":true,
+					"complexItems": [
+						{
+				        	"id":"c1",
+				        	"type":"String",
+				        	"width":200,
+				        	"value":"",
+				        	"name":"ImportType",
+ 
+				        },
+						{
+				        	"id":"c2",
+				        	"type":"String",
+				        	"width":100,
+				        	"value":"",
+				        	"name":"Location"
+				        },
+						{
+				        	"id":"c3",
+				        	"type":"String",
+				        	"width":200,
+				        	"value":"",
+				        	"name":"Namespace",
+ 
+				        }
+					]
+				},
+				{
+					"id":"outmsgiscollection",
+					"type":"Boolean",
+					"title":"OutMessageIsCollection",
+ 
+					"value":false,
+					"description":"Setting this flag to true indicates that the actual data type is a collection.",
+ 
+					"readonly":false,
+					"optional":true
+				}
+			]
+		},
+		{
+			"name" : "task",
+			"properties" : [
+				{
+					"id":"tasktype",
+					"type":"Choice",
+					"title":"TaskType",
+ 
+					"value":"None",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"items":[
+						{
+							"id":"c1",
+							"title":"None",
+ 
+							"value":"None",
+							"refToView":"none"
+						},
+						{
+							"id":"c4",
+							"title":"User",
+ 
+							"value":"User",
+							"icon" : "activity/list/type.user.png",
+							"refToView":"userTask"
+						},
+						{
+							"id":"c5",
+							"title":"Manual",
+ 
+							"value":"Manual",
+							"icon" : "activity/list/type.manual.png",
+							"refToView":"manualTask"	
+						}
+					]
+				},
+				{
+					"id":"implementation",
+					"type":"Choice",
+					"title":"Implementation",
+					"value":"webService",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"items": [
+						{
+							"id":"c1",
+							"title":"HumanTaskWebService",
+							"value":"humanTaskWebService",
+							"refToView":""
+						},
+						{
+							"id":"c2",
+							"title":"BuisnessRuleWebService",
+							"value":"BuisnessRuleWebService",
+							"refToView":""
+						},
+						{
+							"id":"c1",
+							"title":"WebService",
+							"value":"webService",
+							"refToView":""
+						},
+						{
+							"id":"c2",
+							"title":"Other",
+							"value":"other",
+							"refToView":""
+						},
+						{
+							"id":"c2",
+							"title":"Unspecified",
+							"value":"unspecified",
+							"refToView":""
+						}
+					]
+				},
+				{
+					"id":"resources",
+					"type":"Complex",
+					"title":"Resources",
+ 
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"complexItems": [
+						{
+							"id":"resource_type",
+							"name":"Type",
+ 
+							"type":"Choice",
+							"value":"",
+							"width":100,
+							"optional":false,
+							"items": [
+								{
+									"id":"c1",
+									"title":"Performer",
+ 
+									"value":"Performer",
+									"refToView":""
+								},
+								{
+									"id":"c2",
+									"title":"HumanPerformer",
+ 
+									"value":"HumanPerformer",
+									"refToView":""
+								},
+								{
+									"id":"c3",
+									"title":"PotentialOwner",
+ 
+									"value":"PotentialOwner",
+									"refToView":""
+								}
+							]
+						},
+						{
+							"id":"resource",
+							"name":"Resource",
+ 
+							"type":"String",
+							"value":"",
+							"width":200,
+							"optional":true
+						},
+						{
+							"id":"resourceassignmentexpr",
+							"name":"ResourceAssignmentExpression",
+							"type":"String",
+							"value":"",
+							"width":200,
+							"optional":true
+						},
+						{
+							"id":"language",
+							"name":"Language",
+							"type":"String",
+							"value":"",
+							"width":100,
+							"optional":true
+						},
+						{
+							"id":"evaluatestotype",
+							"name":"EvaluatesToType",
+							"type":"String",
+							"value":"",
+							"width":200,
+							"optional":true
+						}
+					]
+				},
+				{
+					"id":"messageref",
+					"type":"String",
+					"title":"MessageRef",
+ 
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"50"
+				},
+				{
+					"id":"operationref",
+					"type":"String",
+					"title":"OperationRef",
+ 
+					"value":"",
+					"description":"ID-Reference to an operation definition.",
+ 
+					"readonly":false,
+					"optional":true
+				},
+				{
+					"id":"instantiate",
+					"type":"Boolean",
+					"title":"Instantiate",
+ 
+					"value":false,
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":""
+				},
+				{
+					"id":"script",
+					"type":"Text",
+					"title":"Script",
+ 
+					"value":"",
+					"description":"Script that can be run when the Task is performed. Related to the Script TaskType, if a script is not included, then the Task will act equivalent to a TaskType of None.",
+					"readonly":false,
+					"optional":true
+				},
+				{
+					"id":"script_language",
+					"type":"String",
+					"title":"ScriptLanguage",
+ 
+					"value":"",
+					"description":"Defines the script language. The script language MUST be provided if a script is provided.",
+					"readonly":false,
+					"optional":true
+				},
+				{
+					"id":"bgcolor",
+					"type":"Color",
+					"title":"BackgroundColor",
+ 
+					"value":"#ffffcc",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"fill_el",
+					"fill":true,
+					"stroke":false
+				}		
+			]
+		},
+		{
+			"name" : "subprocess",
+			"properties" : [
+				{
+					"id": "subprocesstype",
+					"type": "Choice",
+					"title": "subProcessType",
+ 
+					"value": "Embedded",
+					"description": "SubProcessType is an attribute that defines whether the Sub-Process details are embedded within the higher level Process or refers to another, re-usable Process. The default is Embedded.",
+ 
+					"optional": false,
+					"refToView": "",
+					"items": [
+						{
+							"id": "choice1",
+							"title":"Embedded",
+							"value":"Embedded"
+						},
+						{
+							"id": "choice2",
+							"title": "Independent",
+							"value": "Independent"
+						},
+						{
+							"id": "choice3",
+							"title": "Reference",
+							"value": "Reference"
+						}
+					]
+				},		
+				
+				{
+					"id":"isadhoc",
+					"type":"Boolean",
+					"title":"isAdHoc",
+ 
+					"value":false,
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"adhoc"
+				},
+				{
+					"id":"adhocordering",
+					"type":"Choice",
+					"title":"AdHocOrdering",
+ 
+					"value":"Sequential",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"items": [
+						{
+							"id":"c1",
+							"title":"Sequential",
+ 
+							"value":"sequential"
+						},
+						{
+							"id":"c2",
+							"title":"Parallel",
+ 
+							"value":"parallel"
+						}
+					]
+				},
+				{
+					"id":"adhoccompletioncondition",
+					"type":"String",
+					"title":"AdHocCompletionCondition",
+ 
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":""
+				},
+				{
+					"id":"adhoccancelremaininginstances",
+					"type":"Boolean",
+					"title":"AdhocCancelRemainingInstances",
+ 
+					"value":true,
+					"description":"This attribute is used only if ordering is parallel. It determines whether running instances are cancelled when the completionCondition becomes true.",
+					"readonly":false,
+					"optional":true
+				},
+				{
+					"id":"entry",
+					"type":"DiagramLink",
+					"title":"SubProcessRef",
+ 
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"u"
+				},
+				{
+					"id":"diagramref",
+					"type":"String",
+					"title":"DiagramRef",
+ 
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":""
+				},
+				{
+					"id":"processref",
+					"type":"String",
+					"title":"ProcessRef",
+ 
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":""
+				},
+				{
+					"id":"inputmaps",
+					"type":"String",
+					"title":"InputMaps",
+ 
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":""
+				},
+				{
+					"id":"outputmaps",
+					"type":"String",
+					"title":"OutputMaps",
+ 
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":""
+				}
+			]
+		},
+		{
+			"name" : "gateway",
+			"properties" : [
+				{
+					"id":"assignments",
+					"type":"Complex",
+					"title":"Assignments",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"complexItems": [
+						{
+							"id":"to",
+							"name":"To",
+ 
+							"type":"String",
+							"value":"",
+							"width":100,
+							"optional":false 
+						},
+						{
+							"id":"from",
+							"name":"From",
+ 
+							"type":"String",
+							"value":"",
+							"width":100,
+							"optional":false
+						},
+						{
+							"id":"assigntime",
+							"name":"AssignTime",
+ 
+							"type":"Choice",
+							"value":"Start",
+							"width":100,
+							"optional":true,
+							"items": [
+								{
+									"id":"c1",
+									"title":"Start",
+ 
+									"value":"Start",
+									"refToView":""
+								},
+								{
+									"id":"c2",
+									"title":"End",
+ 
+									"value":"End",
+									"refToView":""
+								}
+							]
+						}
+					]
+				},
+				{
+					"id":"pool",
+					"type":"String",
+					"title":"Pool",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"length":""
+				},
+				{
+					"id":"lanes",
+					"type":"String",
+					"title":"Lanes",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"length":""
+				},
+				{
+					"id":"gates",
+					"type":"String",
+					"title":"Gates",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"50",
+					"wrapLines":true
+				},
+				{
+					"id":"gates_outgoingsequenceflow",
+					"type":"String",
+					"title":"[Gates] OutgoingSequenceFlow",
+ 
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"50",
+					"wrapLines":true
+				},
+				{
+					"id":"gates_assignments",
+					"type":"String",
+					"title":"[Gates] Assignments",
+ 
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"50",
+					"wrapLines":true
+				}
+			]
+		},
+		{
+			"name" : "artifact",
+			"properties" : [
+				{
+					"id":"pool",
+					"type":"String",
+					"title":"Pool",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"length":""
+				},
+				{
+					"id":"lanes",
+					"type":"String",
+					"title":"Lanes",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"length":""
+				}
+			]
+		},
+		{
+			"name":"process",
+			"properties":[
+				{
+					"id":"processtype",
+					"type":"Choice",
+					"title":"ProcessType",
+					"value":"None",
+					"description":"The processType attribute Provides additional information about the level of abstraction modeled by this Process.",
+					"readonly":false,
+					"optional":false,
+					"popular" : true,
+					"items": [
+						{
+							"id":"c1",
+							"title":"None",
+							"value":"None"
+						},
+						{
+							"id":"c2",
+							"title":"Executable",
+							"value":"Executable"
+						},
+						{
+							"id":"c3",
+							"title":"Non-Executable",
+							"value":"Non-Executable"
+						},
+						{
+							"id":"c4",
+							"title":"Public",
+							"value":"Public"
+						}
+					]
+				},
+				{
+					"id":"isclosed",
+					"type":"Boolean",
+					"title":"isClosed",
+ 
+					"value":false,
+					"description":"A Boolean value specifying whether interactions, such as sending and receiving Messages and Events, not modeled in the Process can occur when the Process is executed or performed. If the value is true, they MAY NOT occur. If the value is false, they MAY occur.",
+					"readonly":false,
+					"optional":false
+				}
+			]
+		},
+		{
+			"name" : "pool",
+			"properties" : [
+				{
+					"id" : "multiinstance",
+					"type" : "Boolean",
+					"title" : "is Multi Instance Participant",
+					"value" : false,
+					"description" : "",
+ 
+					"readonly" : false,
+					"optional" : true,
+					"refToView" : "multiInstance"
+				},
+				{
+					"id":"boundaryvisible",
+					"type":"Boolean",
+					"title":"BoundaryVisible",
+ 
+					"value":true,
+					"description":"Defines if the rectangular boundary for the Pool is visible.",
+ 
+					"readonly":false,
+					"optional":false,
+					"refToView": ["border", "c", "caption", "captionDisableAntialiasing"],
+					"visible":false
+				},
+				{
+					"id":"processname",
+					"type":"String",
+					"title":"ProcessName",
+ 
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"status",
+					"type":"Choice",
+					"title":"Status",
+					"value":"None",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"popular" : true,
+					"items": [
+						{
+							"id":"c1",
+							"title":"None",
+							"value":"None"
+						},
+						{
+							"id":"c2",
+							"title":"Ready",
+							"value":"Ready"
+						},
+						{
+							"id":"c3",
+							"title":"Active",
+							"value":"Active"
+						},
+						{
+							"id":"c4",
+							"title":"Cancelled",
+							"value":"Cancelled"
+						},
+						{
+							"id":"c5",
+							"title":"Aborting",
+							"value":"Aborting"
+						},
+						{
+							"id":"c6",
+							"title":"Aborted",
+							"value":"Aborted"
+						},
+						{
+							"id":"c7",
+							"title":"Completing",
+							"value":"Completing"
+						},
+						{
+							"id":"c8",
+							"title":"Completed",
+							"value":"Completed"
+						}
+					]
+				},
+				{
+					"id":"adhoc",
+					"type":"Boolean",
+					"title":"AdHoc",
+					"value":false,
+					"description":"",
+					"readonly":false,
+					"optional":false
+				},
+				{
+					"id":"adhocordering",
+					"type":"Choice",
+					"title":"AdHocOrdering",
+ 
+					"value":"Parallel",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"items": [
+						{
+							"id":"c1",
+							"title":"Sequential",
+							"value":"Sequential",
+							"refToView":""
+						},
+						{
+							"id":"c2",
+							"title":"Parallel",
+							"value":"Parallel",
+							"refToView":""
+						}
+					]
+				},
+				{
+					"id":"adhoccompletioncondition",
+					"type":"String",
+					"title":"AdHocCompletionCondition",
+ 
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"50"
+				},
+				{
+					"id":"suppressjoinfailure",
+					"type":"Boolean",
+					"title":"SuppressJoinFailure",
+					"value":false,
+					"description":"",
+					"readonly":false,
+					"optional":false
+				},
+				{
+					"id":"enableinstancecompensation",
+					"type":"Boolean",
+					"title":"EnableBooleanCompensation",
+					"value":false,
+					"description":"",
+					"readonly":false,
+					"optional":false
+				},
+				{
+					"id":"processcategories",
+					"type":"String",
+					"title":"ProcessCategories",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"50",
+					"wrapLines":true
+				},
+				{
+					"id":"processdocumentation",
+					"type":"String",
+					"title":"Process Documentation",
+ 
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"",
+					"wrapLines":true
+				}
+			]
+		},
+		{
+			"name" : "dataAssociation",
+			"properties" : [
+			    {
+					"id":"assignments",
+					"type":"Complex",
+					"title":"Assignments",
+ 
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"popular":true,
+					"complexItems": [
+						{
+							"id":"to",
+							"name":"To",
+ 
+							"type":"String",
+							"value":"",
+							"width":100,
+							"optional":false 
+						},
+						{
+							"id":"from",
+							"name":"From",
+ 
+							"type":"String",
+							"value":"",
+							"width":100,
+							"optional":false
+						},
+						{
+							"id":"language",
+							"name":"Language",
+ 
+							"type":"String",
+							"value":"",
+							"width":100,
+							"optional":true
+						}
+					]
+			    },
+			    {
+					"id":"transformation",
+					"title":"Transformation",
+					"type":"String",
+					"value":"",
+					"optional":true,
+					"popular":true
+				}
+			]
+		}
+	],
+	"stencils" : [
+ 		{
+			"type":				"node",
+			"id":				"BPMNDiagram",
+			"title":			"BPMN-Diagram",
+ 
+			"groups":			["Diagram"],
+			"description":		"A BPMN 2.0 Diagram.",
+ 
+			"view":				"diagram.svg",
+			"icon":				"diagram.png",
+			"mayBeRoot":		true,
+			"hide":				true,
+			"propertyPackages" : ["baseAttributes","diagram"],
+			"roles":			["canContainArtifacts"]
+		},
+	
+		
+		{
+			"type" : 			"node",
+			"id": 				"Task",
+			"title" : 			"Task",
+ 
+			"groups" : 			["Activities"],
+ 
+			"description" : 	"A task is a unit of work - the job to be performed.",
+ 
+			"view" : 			"activity/task.svg",
+			"icon" : 			"activity/task.png",
+			"propertyPackages" :[
+				"baseAttributes",
+				"flowElement",
+				"activity",
+				"task",
+				"loopcharacteristics",
+				"properties",
+				"iospecification"
+			],
+			"roles" : 			[
+				"all",
+				"sequence_start",
+				"sequence_end",
+				"from_task_event",
+				"to_task_event",
+				"FromEventbasedGateway",
+				"messageflow_start",
+				"messageflow_end",
+				"fromtoall",
+				"ActivitiesMorph"
+			]
+		},
+		{
+			"type" : 			"node",
+			"id" :				"CollapsedSubprocess",
+			"title" : 			"Collapsed Subprocess",
+ 
+			"groups" :			["Activities"],
+ 
+			"description" :		"A subprocess is a decomposable activity. It can be linked to another process diagram.",
+ 
+			"view" :			"activity/subprocess.collapsed.svg",
+			"icon" :			"activity/subprocess.png",
+			"propertyPackages" :[
+				"baseAttributes",
+				"flowElement",
+				"activity",
+				"subprocess",
+				"loopcharacteristics",
+				"bgColor",
+				"properties",
+				"iospecification"
+			],
+			"properties" :		[
+				{
+					"id":"activitytype",
+					"type":"String",
+					"title":"ActivityType",
+ 
+					"value":"Sub-Process",
+ 
+					"description":"The Type of Activity.",
+ 
+					"readonly":true,
+					"optional":false,
+					"length":""
+				},
+				{
+					"id":"bgcolor",
+					"type":"Color",
+					"title":"BackgroundColor",
+ 
+					"value":"#ffffcc",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"fill_el",
+					"fill":true,
+					"stroke":false
+				}	
+			],
+			"roles": 			[
+				"all",
+				"sequence_start",
+				"sequence_end",
+				"messageflow_start",
+				"messageflow_end",
+				"to_task_event",
+				"from_task_event",
+				"fromtoall",
+				"ActivitiesMorph"
+			]
+		},
+		{
+			"type" : 			"node",
+			"id" :				"Subprocess",
+			"title" :			"Expanded Subprocess",
+ 
+			"groups" :			["Activities"],
+ 
+			"description" :		"A subprocess is a decomposable activity. An expanded subprocess contains a valid BPMN diagram.",
+ 
+			"view" :			"activity/subprocess.expanded.svg",
+			"icon" :			"activity/expanded.subprocess.png",
+ 			"layout" : 			[
+ 									{"type" : "layout.bpmn2_0.subprocess"},
+ 									{"type" : "layout.container.dockers"},
+ 									{
+ 										"type" : "layout.container.minBounds",
+ 										"options" : {
+ 											"fixedX" : true,
+ 											"ignoreChildsWithId" : [
+ 												"http://b3mn.org/stencilset/bpmn2.0#Lane",
+ 												"http://b3mn.org/stencilset/bpmn2.0#StartNoneEvent"
+ 											]
+ 										}
+ 									}
+ 								],
+			"propertyPackages" :[
+				"baseAttributes",
+				"flowElement",
+				"activity",
+				"subprocess",
+				"loopcharacteristics",
+				"properties",
+				"iospecification"
+			],
+			"properties" :		[
+				{
+					"id":"activitytype",
+					"type":"String",
+					"title":"ActivityType",
+ 
+					"value":"Sub-Process",
+ 
+					"description":"The Type of Activity.",
+ 
+					"readonly":true,
+					"optional":false,
+					"length":""
+				},
+				{
+					"id":"bgcolor",
+					"type":"Color",
+					"title":"BackgroundColor",
+ 
+					"value":"#ffffff",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"fill_el",
+					"fill":true,
+					"stroke":false
+				}	
+			],
+			"roles"	:			[
+				"all",
+				"sequence_start",
+				"sequence_end",
+				"messageflow_start",
+				"messageflow_end",
+				"to_task_event",
+				"from_task_event",
+				"fromtoall",
+				"canContainArtifacts",
+				"ActivitiesMorph"
+			]
+		},
+		
+		{
+			"type" : 			"node",
+			"id" :				"Exclusive_Databased_Gateway",
+			"title" :			"Data-based Exclusive (XOR) Gateway",
+ 
+			"description" :		"When splitting, it routes the sequence flow to exactly one of the outgoing branches based on conditions. When merging, it awaits one incoming branch to complete before triggering the outgoing flow.",
+ 
+			"groups" : 			["Gateways"],
+			"view" : 			"gateway/exclusive.databased.svg",
+			"icon" : 			"gateway/exclusive.databased.png",
+			"propertyPackages" :[
+				"baseAttributes",
+				"flowElement",
+				"gateway",
+				"bgColor"
+			],
+			"properties" :		[
+				{
+					"id":"gatewaytype",
+					"type":"String",
+					"title":"Gateway type",
+					"title":"Gateway-Typ",
+					"value":"XOR",
+					"description":"",
+					"readonly":true,
+					"optional":false,
+					"length":""
+				},
+				{
+					"id":"xortype",
+					"type":"String",
+					"title":"XOR type",
+ 
+					"value":"Data",
+					"description":"",
+					"readonly":true,
+					"optional":false,
+					"length":""
+				},
+				{
+					"id":"markervisible",
+					"type":"Boolean",
+					"title":"X-Marker visible",
+ 
+					"value":"true",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"cross"
+				},		
+				{
+					"id":"defaultgate",
+					"type":"String",
+					"title":"Default gate",
+ 
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"50",
+					"wrapLines":true
+				},
+				{
+					"id":"gate_outgoingsequenceflow",
+					"type":"String",
+					"title":"[Gate] OutgoingSequenceFlow",
+ 
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"50"
+				},
+				{
+					"id":"gate_assignments",
+					"type":"String",
+					"title":"[Gate] Assignments",
+ 
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"50",
+					"wrapLines":true
+				}	
+			],
+			"roles": 			[
+				"all",
+				"sequence_start",
+				"sequence_end",
+				"choreography_sequence_start",
+				"choreography_sequence_end",
+				"fromtoall",
+				"GatewaysMorph"
+			]
+		},
+		{
+			"type" : 			"node",
+			"id" : 				"EventbasedGateway",
+			"title" :			"Event-based Gateway",
+ 
+			"groups" :			["Gateways"],
+			"description" :		"Is always followed by catching events or receive tasks. Sequence flow is routed to the subsequent event/task which happens first.",
+ 
+			"view" :			"gateway/eventbased.svg",
+			"icon" :			"gateway/eventbased.png",
+			"propertyPackages" :[
+				"baseAttributes",
+				"flowElement",
+				"gateway",
+				"bgColor"
+			],
+			"properties" :		[
+				{
+					"id":"eventtype",
+					"type":"Choice",
+					"title":"Type",
+ 
+					"value":"exclusive",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"items":[
+						{
+							"id":"c1",
+							"title":"Exclusive (standard)",
+ 
+							"value":"exclusive",
+							"icon" : "gateway/list/eventbased.exclusive.png",
+							"refToView":"default"
+						},
+						{
+							"id":"c2",
+							"title":"Exclusive Instantiation",
+ 
+							"value":"instantiate_exclusive",
+							"icon" : "gateway/list/eventbased.exclusive.png",
+							"refToView":["default","instantiate"]
+						},
+						{
+							"id":"c3",
+							"title":"Parallel Instantiation",
+ 
+							"value":"instantiate_parallel",
+							"icon" : "gateway/list/eventbased.parallel.png",
+							"refToView":["parallel","instantiate"]
+						}
+					]
+				}
+			],
+			"roles":			[
+				"all",
+				"sequence_end",
+				"choreography_sequence_start",
+				"choreography_sequence_end",
+				"fromtoall",
+				"GatewaysMorph",
+				"EventbasedGateway"
+			]
+		},
+		{
+			"type" : 			"node",
+			"id" :				"ParallelGateway",
+			"title" :			"Parallel Gateway",
+ 
+			"groups" :			["Gateways"],
+			"description" :		"When used to split the sequence flow, all outgoing branches are activated simultaneously. When merging parallel branches it waits for all incoming branches to complete before triggering the outgoing flow.",
+ 
+			"view" :			"gateway/parallel.svg",
+			"icon" :			"gateway/parallel.png",
+			"propertyPackages" :[
+				"baseAttributes",
+				"flowElement",
+				"gateway",
+				"bgColor"
+			],
+			"properties" : [
+				{
+					"id":"gatewaytype",
+					"type":"String",
+					"title":"GatewayType",
+ 
+					"value":"AND",
+					"description":"",
+					"readonly":true,
+					"optional":false,
+					"length":""
+				}
+			],
+			"roles": 			[
+				"all",
+				"sequence_start",
+				"sequence_end",
+				"choreography_sequence_start",
+				"choreography_sequence_end",
+				"fromtoall",
+				"GatewaysMorph"
+			]
+		},
+		{
+			"type" : 			"node",
+			"id" :				"InclusiveGateway",
+			"title" :			"Inclusive Gateway",
+ 
+			"groups" :			["Gateways"],
+			"description" :		"When splitting, one or more branches are activated based on branching conditions. When merging, it awaits all active incoming branches to complete.",
+ 
+			"view" :			"gateway/inclusive.svg",
+			"icon" :			"gateway/inclusive.png",
+			"propertyPackages" :[
+				"baseAttributes",
+				"flowElement",
+				"gateway",
+				"bgColor"
+			],
+			"properties" :		[
+				{
+					"id":"gatewaytype",
+					"type":"String",
+					"title":"GatewayType",
+ 
+					"value":"OR",
+					"description":"",
+					"readonly":true,
+					"optional":false,
+					"length":""
+				},
+				{
+					"id":"defaultgate",
+					"type":"String",
+					"title":"DefaultGate",
+ 
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"50",
+					"wrapLines":true
+				},
+				{
+					"id":"gate_outgoingsequenceflow",
+					"type":"String",
+					"title":"[Gate] OutgoingSequenceFlow",
+ 
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"50"
+				},
+				{
+					"id":"gate_assignments",
+					"type":"String",
+					"title":"[Gate] Assignments",
+					"title":"[Gates] Zuweisungen",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"50",
+					"wrapLines":true
+				}
+			],
+			"roles": 			[
+				"all",
+				"sequence_start",
+				"sequence_end",
+				"choreography_sequence_start",
+				"choreography_sequence_end",
+				"fromtoall",
+				"GatewaysMorph"
+			]
+		},
+		{
+			"type": "node",
+			"id":"ComplexGateway",
+			"title":"Complex Gateway",
+			"groups":["Gateways"],
+			"description":"It triggers one or more branches based on complex conditions or verbal descriptions. Use it sparingly as the semantics might not be clear.",
+ 
+			"view":"gateway/complex.svg",
+			"icon":"gateway/complex.png",
+			"propertyPackages" : [
+				"baseAttributes",
+				"flowElement",
+				"gateway",
+				"bgColor"
+			],
+			"properties" : [
+				{
+					"id":"gatewaytype",
+					"type":"String",
+					"title":"GatewayType",
+ 
+					"value":"Complex",
+					"description":"",
+					"readonly":true,
+					"optional":false,
+					"length":""
+				},
+				{
+					"id":"activationcondition",
+					"type":"String",
+					"title":"ActivationCondition",
+ 
+					"value":"",
+					"popular":true,
+					"description":"Determines which combination of incoming tokens will be synchronized for activation of the Gateway.",
+					"readonly":false,
+					"optional":true
+				},
+				{
+					"id":"incomingcondition",
+					"type":"String",
+					"title":"IncomingCondition",
+ 
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"50"
+				},
+				{
+					"id":"outgoingcondition",
+					"type":"String",
+					"title":"OutgoingCondition",
+ 
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"50"
+				}
+			],
+			"roles": [
+				"all",
+				"sequence_start",
+				"sequence_end",
+				"choreography_sequence_start",
+				"choreography_sequence_end",
+				"fromtoall",
+				"GatewaysMorph"
+			]
+		},
+		
+		{
+			"type" : 			"node",
+			"id" :				"Pool",
+			"title" :			"Pool",
+			"groups" :			["Swimlanes"],
+ 
+			"description" :		"Pools and Lanes represent responsibilities for activities in a process. A pool or a lane can be an organization, a role, or a system.",
+ 
+			"view" :			"swimlane/pool.svg",
+			"icon" :			"swimlane/pool.png",
+			"propertyPackages": [
+				"baseAttributes",
+				"pool",
+				"process",
+				"bgColor"
+			],
+			"roles" : 			[
+				"all",
+				"messageflow_start",
+				"messageflow_end",
+				"fromtoall",
+				"canContainArtifacts"				
+			],
+			"layout" : [{"type" : "layout.bpmn2_0.pool"}]
+		},
+		{
+			"type" : 			"node",
+			"id" :				"CollapsedPool",
+			"title" :			"Collapsed Pool",
+ 
+			"groups" :			["Swimlanes"],
+ 
+			"description" :		"Collapsed Pools hide all internals of the contained processes.",
+ 
+			"view" :			"swimlane/collapsed.pool.svg",
+			"icon" :			"swimlane/lane.png",
+			"propertyPackages": [
+				"baseAttributes",
+				"pool",
+				"process",
+				"bgColor"
+			],
+			"properties" : 		[
+				{
+					"id":"bgcolor",
+					"type":"Color",
+					"title":"BackgroundColor",
+ 
+					"value":"#ffffff",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"fill_el",
+					"fill":true,
+					"stroke":false
+				}
+			],
+			"roles" :		 	[
+				"all",
+				"messageflow_start",
+				"messageflow_end",
+				"fromtoall"				
+			]
+		},
+		{
+			"type" : 			"node",
+			"id" :				"Lane",
+			"title" :			"Lane",
+			"groups" :			["Swimlanes"],
+ 
+			"description" :		"Pools and Lanes represent responsibilities for activities in a process. A pool or a lane can be an organization, a role, or a system. Lanes sub-divide pools or other lanes hierarchically.",
+ 
+			"view" :			"swimlane/lane.svg",
+			"icon" :			"swimlane/lane.png",
+			"propertyPackages": [
+				"baseAttributes"
+			],
+			"properties" : 		[
+				{
+					"id":"parentpool",
+					"type":"String",
+					"title":"ParentPool",
+ 
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"parentlane",
+					"type":"String",
+					"title":"ParentLane",
+ 
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"length":"30"
+				},
+				{
+					"id":"showcaption",
+					"type":"Boolean",
+					"title":"ShowCaption",
+ 
+					"value":"true",
+					"description":"",
+					"readonly":true,
+					"optional":false,
+					"refToView": ["caption", "captionDisableAntialiasing"],
+					"fill":true,
+					"visible":false,
+					"stroke":false,
+					"hidden":true
+				}
+			],
+			"roles": 			[
+				"PoolChild",
+				"fromtoall",
+				"canContainArtifacts"				
+			],
+			"layout" : [
+						{"type" : "layout.bpmn11.lane"},
+						{
+							"type" : "layout.container.minBounds",
+							"options" : {
+								"ignoreChildsWithId" : [
+									"http://b3mn.org/stencilset/bpmn2.0#Lane"
+								]
+							}
+						}
+			]
+		},
+        {
+            "type" :            "node",
+            "id" :              "processparticipant",
+            "title" :           "Additional Participant",
+ 
+            "groups" :          ["Swimlanes"],
+ 
+            "description" :     "he additional participant can be connected to a task or sub process. It is used to visualize additional associations of roles or individuals to the respective activity (e.g. responsibility, informed persons, etc.).",
+ 
+            "view" :            "swimlane/process.participant.svg",
+            "icon" :            "swimlane/process.participant.png",
+            "defaultAlign" :    "northeast",
+            "propertyPackages": [
+                "baseAttributes",
+                "flowElement",
+                "artifact",
+                "bgColor"
+            ],
+            "roles": [
+                "all",
+                "from_participant",
+                "to_participant",
+                "fromtoall",
+                "eventSubprocessElement"
+            ]
+        },
+		
+		{
+			"type" : 			"node",
+			"id" : 				"Group",
+			"title" :			"Group",
+ 
+			"groups" :			["Artifacts"],
+ 
+			"description" :		"An arbitrary set of objects can be defined as a Group to show that they logically belong together.",
+ 
+			"view" :			"artifact/group.svg",
+			"icon":				"artifact/group.png",
+			"propertyPackages" : [
+				"baseAttributes",
+				"flowElement",
+				"artifact"
+			],
+			"properties" : [
+				{
+					"id":"artifacttype",
+					"type":"String",
+					"title":"ArtifactType",
+ 
+					"value":"Group",
+					"description":"",
+					"readonly":true,
+					"optional":false,
+					"length":""
+				}
+			],
+			"roles": [
+				"all",
+				"fromtoall",
+				"canContainArtifacts"
+			]
+		},
+		{
+			"type" : 			"node",
+			"id" : 				"TextAnnotation",
+			"title" :			"Text Annotation",
+ 
+			"groups" :			["Artifacts"],
+ 
+			"description" :		"Any object can be associated with a Text Annotation to provide additional documentation.",
+ 
+			"view" :			"artifact/text.annotation.svg",
+			"icon" :			"artifact/text.annotation.png",
+			"defaultAlign" :	"northeast",
+			"propertyPackages": [
+				"baseAttributes",
+				"flowElement",
+				"artifact"
+			],
+			"properties" : 		[
+				{
+					"id":"text",
+					"type":"String",
+					"title":"Text",
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"text",
+					"length":"",
+					"wrapLines":true
+				},
+				{
+					"id":"artifacttype",
+					"type":"String",
+					"title":"ArtifactType",
+ 
+					"value":"Annotation",
+					"description":"",
+					"readonly":true,
+					"optional":false,
+					"length":""
+				}
+			],
+			"roles": [
+				"all",
+				"from_artifact",
+				"to_artifact",
+				"TextAnnotationMorph"
+			]
+		},
+		
+		{
+			"type" : 			"node",
+			"id" :				"DataObject",
+			"title" :			"Data Object",
+ 
+			"description" :		"A Data Object represents information flowing through the process, such as business documents, e-mails or letters.",
+ 
+			"groups" :			["Data Objects"],
+ 
+			"view" :			"dataobject/data.object.svg",
+			"icon" :			"dataobject/data.object.png",
+			"defaultAlign" :	"southeast",
+			"propertyPackages":	[
+				"baseAttributes",
+				"flowElement",
+				"properties",
+				"bgColor"
+			],
+			"properties" :		[
+				{
+					"id":"state",
+					"type":"String",
+					"title":"State",
+ 
+					"value":"",
+					"description":"",
+					"refToView":"text_state",
+					"readonly":false,
+					"optional":true,
+					"directlyEditable":false
+				},
+				{
+					"id":"input_output",
+					"type":"Choice",
+					"title":"Input/Output",
+ 
+					"value":"None",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"refToView":"",
+					"items":[
+						{
+							"id":"c1",
+							"title":"None",
+							"value":"None",						
+							"refToView":"none"
+						},
+						{
+							"id":"c2",
+							"title":"Input",
+							"value":"Input",
+							"icon" : "dataobject/list/input.png",
+							"refToView":"input"
+						},
+						{
+							"id":"c3",
+							"title":"Output",
+							"value":"Output",
+							"icon" : "dataobject/list/output.png",
+							"refToView":"output"
+						}
+					]
+				},		
+				{
+					"id" : "iscollection",
+					"type" : "Boolean",
+					"title" : "is Collection",
+ 
+					"value" : false,
+					"description" : "A Collection Data Object represents a collection of information, e.g. a list of order items.",
+ 
+					"readonly" : false,
+					"optional" : true,
+					"refToView" : "collection"
+				}
+			],
+			"roles" : 			[
+				"all",
+				"from_task_event",
+				"to_task_event",
+				"fromtoall",
+				"DataObjectMorph"
+			]
+		},
+		{
+			"type" : 			"node",
+			"id" :				"ITSystem",
+			"title" :			"IT System",
+ 
+			"groups" :			["Artifacts"],
+ 
+			"description" : 	"An IT System can be associated with an activity. It is a system or application used while fulfilling the activity.",
+ 
+			"view" :			"dataobject/it.system.svg",
+			"icon" : 			"dataobject/it.system.png",
+			"propertyPackages" : [
+				"baseAttributes",
+				"flowElement"				
+			],
+			"properties" : [
+				{
+					"id":"bgcolor",
+					"type":"Color",
+					"title":"BackgroundColor",
+ 
+					"value":"#e1e1e1",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"fill_el",
+					"fill":true,
+					"stroke":false
+				}
+			],
+			"roles" :			[
+			    "all",
+			    "from_task_event",
+			    "to_task_event",
+			    "fromtoall",
+			    "DataObjectMorph"
+			]
+		},
+		{
+			"type" : 			"node",
+			"id" :				"DataStore",
+			"title" :			"Data Store",
+ 
+			"groups" :			["Data Objects"],
+ 
+			"description" :		"A Data Store is a place where the process can read or wirte date, e.g. a database or a filling cabinet. It persists beyond the lifetime of the process instance.",
+ 
+			"view" :			"dataobject/data.store.svg",
+			"icon" :			"dataobject/data.store.png",
+			"propertyPackages": [
+				"baseAttributes",
+				"flowElement",
+				"itemAwareElement",
+				"bgColor"
+			],
+			"properties" :		[
+				{
+					"id" : "capacity",
+					"type" : "Integer",
+					"title" : "Capacity",
+ 
+					"description" : "",
+					"readonly" : false,
+					"optional" : true,
+					"length" : ""
+				},
+				{
+					"id" : "isUnlimited",
+					"type" : "Boolean",
+					"title" : "is Unlimited",
+ 
+					"value" : false,
+					"description" : "",
+					"readonly" : false,
+					"optional" : true
+				},
+				{
+					"id" : "dataStoreRef",
+					"type" : "String",
+					"title" : "DataStoreRef",
+ 
+					"description" : "",
+					"readonly" : false,
+					"optional" : true,
+					"length": 50,
+					"wrapLines" : true
+				},
+				{
+					"id":"bgcolor",
+					"type":"Color",
+					"title":"BackgroundColor",
+ 
+					"value":"#ffffff",
+					"description":"",
+					"readonly":false,
+					"optional":false,
+					"refToView":"fill_el",
+					"fill":true,
+					"stroke":false
+				}
+			],
+			"roles" :			[
+				"all",
+				"fromtoall",
+				"to_task_event",
+				"from_task_event",
+				"DataObjectMorph"
+			]
+		},
+		{
+			"type" :			"node",
+			"id" :				"Message",
+			"title" :			"Message",
+ 
+			"groups" :			["Data Objects"],
+ 
+			"description" :		"A Message is used to depict the contents of a communication between two Participants.",
+ 
+			"view" :			"dataobject/message.svg",
+			"icon" :			"dataobject/message.png",
+			"propertyPackages":	[
+				"baseAttributes",
+				"flowElement",
+				"itemAwareElement"
+			],
+			"properties" :		[
+				{
+					"id" : "structureref",
+					"type" : "String",
+					"title" : "StructureRef",
+ 
+					"description" : "",
+					"readonly" : false,
+					"optional" : true,
+					"length" : 50,
+					"wrapLines" : true
+				},
+				{
+					"id" : "initiating",
+					"type" : "Boolean",
+					"title" : "is initiating",
+ 
+					"description" : "",
+					"value" : true,
+					"inverseBoolean":true,
+					"refToView" : ["nonInitiating", "nonInitiating2"],
+					"readonly" : false,
+					"optional" : true
+				},
+				{
+					"id":"bgcolor",
+					"type":"Color",
+					"title":"BackgroundColor",
+ 
+					"value":"#ffffff",
+					"description":"",
+					"readonly":true,
+					"optional":false,
+					"refToView":["bg_frame","bg_frame2"],
+					"fill":true,
+					"stroke":false,
+					"hidden":true
+				}
+			],
+			"roles" :			[
+				"all",
+				"fromtoall",
+				"DataObjectMorph"
+			]
+		},
+		
+		{
+			"type" : 			"node",
+			"id": 				"StartNoneEvent",
+			"title": 			"Start Event",
+ 
+			"groups" : 			["Start Events"],
+ 
+			"description" : 	"Untyped start event.",
+ 
+			"view" : 			"startevent/none.svg",
+			"icon" : 			"startevent/none.png",
+			"propertyPackages":	[
+				"baseAttributes",
+				"bgColor"
+			],
+			"roles" : [
+				"all",
+				"Startevents_all",
+				"sequence_start",
+				"choreography_sequence_start",
+				"to_task_event",
+				"from_task_event",
+				"fromtoall",
+				"StartEventsMorph"
+			],
+			"properties": [
+				{
+					"id":"trigger",
+					"type":"String",
+					"title":"Trigger",
+ 
+					"value":"None",
+					"description":"",
+					"readonly":true,
+					"optional":false
+				}
+			]
+		},
+	
+		{
+			"type" : "node",
+			"id": "EndNoneEvent",
+			"title": "End Event",
+ 
+			"groups" : ["End Events"],
+ 
+			"description" : "The untyped end event typically marks the standard end of a process.",
+ 
+			"view" : "endevent/none.svg",
+			"icon" : "endevent/none.png",
+			"propertyPackages":[
+				"baseAttributes",
+				
+				"bgColor"
+			],
+			"roles" : [
+				"all",
+				"sequence_end",
+				"to_task_event",
+				"from_task_event",
+				"fromtoall",
+				"choreography_sequence_end",
+				"Endevents_all",
+				"EndEventsMorph"
+			],
+			"properties": [
+				{
+					"id":"trigger",
+					"type":"String",
+					"title":"Trigger",
+ 
+					"value":"None",
+					"description":"",
+					"readonly":true,
+					"optional":false
+				}
+			]
+		},
+				
+		{
+			"type": "node",
+			"id":"EndTerminateEvent",
+			"title":"Terminate End Event",
+ 
+			"groups":["End Events"],
+ 
+			"description":"Triggering the immediate termination of a process instance. All steps still in execution in parallel branches are terminated.",
+ 
+			"view":"endevent/terminate.svg",
+			"icon":"endevent/terminate.png",
+			"propertyPackages":[
+				"baseAttributes",
+				
+				"bgColor"
+			],
+			"roles": [
+				"all",
+				"sequence_end",
+				"to_task_event",
+				"from_task_event",
+				"fromtoall",
+				
+				"EndEventsMorph"
+			],
+			"properties": [
+				{
+					"id":"trigger",
+					"type":"String",
+					"title":"Trigger",
+ 
+					"value":"Terminate",
+					"description":"",
+					"readonly":true,
+					"optional":false
+				}
+			]
+		},
+		
+		{
+			"type": "edge",
+			"id":"SequenceFlow",
+			"title":"Sequence Flow",
+ 
+			"description":"Sequence Flow defines the execution order of activities.",
+ 
+			"groups":["Connecting Objects"],
+ 
+			"view":"connector/sequenceflow.svg",
+			"icon":"connector/sequenceflow.png",
+			"propertyPackages":[
+				"baseAttributes"
+			],
+			"roles": [
+				"all",
+				"ConnectingObjectsMorph"
+			],
+			"properties":[
+				{
+					"id":"ConditionType",
+					"type":"Choice",
+					"title":"ConditionType",
+ 
+					"value":"None",
+					"description":"Determine the typ of the flow object.",
+ 
+					"readonly":false,
+					"optional":false,
+					"items": [
+						{
+							"id":"none",
+							"title":"Standard",
+ 
+							"value":"None"
+						},
+						{
+							"id":"expression",
+							"title":"Conditional Flow",
+ 
+							"value":"Expression",
+							"icon" : "connector/list/type.expression.png",
+							"refToView":""
+						},
+						{
+							"id":"default",
+							"title":"Default Flow",
+ 
+							"value":"Default",
+							"icon" : "connector/list/type.default.png",
+							"refToView":"default"
+						}
+					]
+				},
+				{
+					"id":"conditionexpression",
+					"type":"String",
+					"title":"Condition Expression",
+ 
+					"value":"",
+					"description":"",
+					"readonly":false,
+					"optional":true,
+					"length":"",
+					"refToView":"condition",
+					"wrapLines":true
+				},
+				{
+					"id":"isimmediate",
+					"type":"Boolean",
+					"title":"isImmediate",
+ 
+					"value":"",
+					"description":"An optional Boolean value specifying whether Activities or Choreography Activities not in the model containing the Sequence Flow can occur between the elements connected by the Sequence Flow. If the value is true, they MAY NOT occur. If the value is false, they MAY occur. Also see the isClosed attribute on Process, Choreography, and Collaboration.",
+					"readonly":false,
+					"optional":false
+				},
+				{
+					"id":"showdiamondmarker",
+					"type":"Boolean",
+					"title":"is conditional flow",
+ 
+					"value":false,
+					"description":"System intern variable to set the Diamond invisible, if sourceShape is a gateway and ConditionType is set to Expression",
+					"readonly":true,
+					"optional":false,
+					"visible":false,
+					"refToView":"conditional"
+				}
+			]
+		},
+		{
+			"type": "edge",
+			"id":"Association_Undirected",
+			"title":"Association (undirected)",
+ 
+			"description":"Attaching a data object with an Undirected Association to a sequence flow indicates hand-over of information between the activities involved.",
+ 
+			"groups":["Connecting Objects"],
+ 
+			"view":"connector/association.undirected.svg",
+			"icon":"connector/association.undirected.png",
+			"roles": [
+				"all",
+				"ConnectingObjectsMorph"
+			],			
+			"propertyPackages" : [
+			    "dataAssociation"
+			],
+			"properties" : [
+				{
+					"id":"type",
+					"type":"Choice",
+					"title":"Responsibilities",
+ 
+					"value":" ",
+					"description":"Describes the type of the responsibility according to RACI.",
+ 
+					"readonly":false,
+					"optional":true,
+					"refToView":"name",
+					"items": [
+						{
+							"id":"c1",
+							"title":"None",
+ 
+							"value":" "
+						},
+						{
+							"id":"c2",
+							"title":"responsible",
+ 
+							"value":"performs"
+						},
+						{
+							"id":"c3",
+							"title":"accountable",
+ 
+							"value":"approves"
+						},
+						{
+							"id":"c4",
+							"title":"consulted",
+ 
+							"value":"consulted"
+						},
+						{
+							"id":"c5",
+							"title":"informed",
+ 
+							"value":"isNotified"
+						}
+					]
+				}
+           ]
+		},
+		{
+			"type": "edge",
+			"id":"Association_Unidirectional",
+			"title":"Association (unidirectional)",
+ 
+			"description":"A Directed Association indicates information flow. A data object can be read at the start of an activity or written upon completion.",
+ 
+			"groups":["Connecting Objects"],
+ 
+			"view":"connector/association.unidirectional.svg",
+			"icon":"connector/association.unidirectional.png",
+			"roles": [
+				"all",
+				"ConnectingObjectsMorph",
+				"Directed_Association"
+			],
+			"propertyPackages" : [
+			    "dataAssociation"
+			],
+			"properties" : [
+                {
+                    "id":"text",
+                    "type":"String",
+                    "title":"Name",
+ 
+                    "value":"",
+                    "description":"",
+                    "readonly":false,
+                    "optional":true,
+                    "length":"",
+                    "refToView":"name",
+                    "wrapLines":true,
+					"popular":true
+                }
+           ]
+		},
+		{
+			"type": "edge",
+			"id":"Association_Bidirectional",
+			"title":"Association (bidirectional)",
+ 
+			"description":"A Bidirected Association indicates that the data object is modified, i.e. read and written during the execution of an actvity.",
+ 
+			"groups":["Connecting Objects"],
+ 
+			"view":"connector/association.bidirectional.svg",
+			"icon":"connector/association.bidirectional.png",
+			"roles": [
+				"all",
+				"ConnectingObjectsMorph",
+				"Directed_Association"
+			],			
+			"propertyPackages" : [
+			    "dataAssociation"
+			],
+			"properties" : [
+                {
+                    "id":"text",
+                    "type":"String",
+                    "title":"Name",
+ 
+                    "value":"",
+                    "description":"",
+                    "readonly":false,
+                    "optional":true,
+                    "length":"",
+                    "refToView":"name",
+                    "wrapLines":true,
+					"popular":true
+                }
+           ]
+		},
+		{
+			"type": "edge",
+			"id":"MessageFlow",
+			"title":"Message Flow",
+ 
+			"description":"Message Flow symbolizes information flow across organizational boundaries. Message flow can be attached to pools, activities, or message events. The order of message exchanges can be specified by combining message flow and sequence flow.",
+ 
+			"groups":["Connecting Objects"],
+ 
+			"view":"connector/messageflow.svg",
+			"icon":"connector/messageflow.png",
+			"propertyPackages":[
+				"baseAttributes"
+			],
+			"roles": [
+				"ConnectingObjectsMorph",
+				"MessageContainer"
+			]
+		}
+	],
+	
+	"rules" : {
+		"cardinalityRules": [
+			{
+				"role":"Startevents_all",
+				"incomingEdges": [
+					{
+						"role":"SequenceFlow",
+						"maximum":0
+						
+					}
+				]
+			},
+			{
+				"role":"Endevents_all",
+				"outgoingEdges": [
+					{
+						"role":"SequenceFlow",
+						"maximum":0
+						
+					}
+				]
+			}
+		],
+		"connectionRules": [
+			{
+				"role":"SequenceFlow",
+				"connects": [
+					{
+						"from":"sequence_start",
+						"to":["sequence_end"]
+					},
+					{
+						"from":"choreography_sequence_start",
+						"to":["choreography_sequence_end"]
+					},
+					{
+						"from":"Exclusive_Eventbased_Gateway",
+						"to":["FromEventbasedGateway"]
+					},{
+						"from" : "EventbasedGateway",
+						"to" : ["FromEventbasedGateway"]
+					}
+				]
+			},
+			{
+				"role":"MessageFlow",
+				"connects": [
+					{
+						"from":"messageflow_start",
+						"to":["messageflow_end"]
+					}
+				]
+			},
+			{
+				"role" : "Directed_Association",
+				"connects" : [
+					{
+						"from" : "from_task_event",
+						"to" : ["DataObject"]
+					},
+					{
+						"from" : "from_task_event",
+						"to" : ["DataStore"]
+					},
+					{
+						"from" : "from_task_event",
+						"to" : ["ITSystem"]
+					},
+					{
+						"from" : "DataObject",
+						"to" : ["to_task_event"]
+					},
+					{
+						"from" : "DataStore",
+						"to" : ["to_task_event"]
+					},
+					{
+						"from" : "ITSystem",
+						"to" : ["to_task_event"]
+					}
+				]
+			},
+			{
+				"role" : "Association_Undirected",
+				"connects" : [
+					{
+						"from" : "SequenceFlow",
+						"to" : ["DataObject"]
+					},
+					{
+						"from" : "DataObject",
+						"to" : ["SequenceFlow"]
+					},
+					{
+						"from" : "DataObject",
+						"to" : ["MessageFlow"]
+					},
+					{
+						"from" : "MessageFlow",
+						"to" : ["DataObject"]
+					},
+					{
+						"from" : "ITSystem",
+						"to" : ["to_task_event"]
+					},
+					{
+						"from" : "from_task_event",
+						"to" : ["ITSystem"]
+					},
+					{
+						"from" : "DataStore",
+						"to" : ["to_task_event"]
+					},
+					{
+						"from" : "from_task_event",
+						"to" : ["DataStore"]
+					},
+					{
+						"from" : "fromtoall",
+						"to" : ["TextAnnotation"]
+					},
+					{
+						"from" : "TextAnnotation",
+						"to" : "fromtoall"
+					},
+					{
+						"from" : "Message",
+						"to" : ["MessageFlow"]
+					},
+					{
+						"from" : "MessageFlow",
+						"to" : ["Message"]
+					},
+		
+	
+					{
+					   "from" : "ActivitiesMorph",
+					   "to" : ["to_participant"]
+					},
+					{
+					   "from" : "to_participant",
+					   "to" : ["ActivitiesMorph"]
+					}
+				]
+			}
+		],
+		"containmentRules" : [
+			{
+				"role" : "BPMNDiagram",
+				"contains" : ["all"]
+			},
+			{
+				"role" : "EventSubprocess",
+				"contains" : [
+					"eventSubprocessElement",
+					"sequence_start",
+					"sequence_end"
+				]
+			},
+			{
+				"role" : "Pool",
+				"contains" : [
+					"Lane"
+				]
+			},
+			{
+				"role" : "Lane",
+				"contains" : [
+					"Lane",
+					"sequence_start",
+					"sequence_end",
+					"DataObjectMorph",
+					"TextAnnotationMorph",
+					"from_participant"
+				]
+			},
+			{
+				"role" : "Subprocess",
+				"contains" : [
+					"sequence_start",
+					"sequence_end",
+					"from_task_event",
+					"to_task_event",
+					"EventSubprocess",
+					"CollapsedEventSubprocess",
+					"TextAnnotation",
+					"from_participant"
+				]
+			},
+			{
+				"role" : "MessageContainer",
+				"contains" : ["Message"]
+			}
+		],
+		"morphingRules": [
+			{
+				"role": "ActivitiesMorph",
+				"baseMorphs": ["Task"],
+				"preserveBounds" : true
+			},
+			{
+				"role": "EventActivitiesMorph",
+				"baseMorphs": ["CollapsedEventSubprocess"]
+			},
+			{
+				"role": "GatewaysMorph",
+				"baseMorphs": ["Exclusive_Databased_Gateway"]
+			},
+			{
+				"role": "StartEventsMorph",
+				"baseMorphs": ["StartNoneEvent"],
+				"showInShapeMenu":false
+			},
+			{
+				"role": "EndEventsMorph",
+				"baseMorphs": ["EndNoneEvent"]
+			},
+			{
+				"role": "TextAnnotationMorph",
+				"baseMorphs": ["TextAnnotation"]
+			},
+			{
+				"role": "DataObjectMorph",
+				"baseMorphs": ["DataObject"]
+			},
+			{
+				"role": "ConnectingObjectsMorph",
+				"baseMorphs": ["SequenceFlow"]
+			},
+			{
+				"role": "AssociationMorph",
+				"baseMorphs": [""]
+			}
+		],
+		"layoutRules" : [
+			{
+				"role": "ActivitiesMorph",
+				"outs":[{"edgeRole":"MessageFlow","t":2, "r":1, "b":2, "l":1},
+						{"t":1,"r":2,"b":1,"l":2}],
+				"ins": [{"edgeRole":"MessageFlow","t":2, "r":1, "b":2, "l":1},
+						{"t":1, "r":2, "b":1, "l":2}]
+			},
+			{
+				"role": "EventActivitiesMorph",
+				"outs":[{"edgeRole":"MessageFlow","t":2, "r":1, "b":2, "l":1},
+						{"t":1,"r":2,"b":1,"l":2}],
+				"ins": [{"edgeRole":"MessageFlow","t":2, "r":1, "b":2, "l":1},
+						{"t":1, "r":2, "b":1, "l":2}]
+			},
+			{
+				"role": "GatewaysMorph",
+				"outs": [{"t":2, "r":1, "b":2, "l":1}]
+			},
+			{
+				"role": "StartEventsMorph",
+				"outs":[{"edgeRole":"MessageFlow","t":2, "r":1, "b":2, "l":1},
+						{"t":1,"r":2,"b":1,"l":2}],
+				"ins": [{"edgeRole":"MessageFlow","t":2, "r":1, "b":2, "l":1},
+						{"t":1, "r":2, "b":1, "l":2}]
+			},
+			{
+				"role": "EndEventsMorph",
+				"outs":[{"edgeRole":"MessageFlow","t":2, "r":1, "b":2, "l":1},
+						{"t":1,"r":2,"b":1,"l":2}],
+				"ins": [{"edgeRole":"MessageFlow","t":2, "r":1, "b":2, "l":1},
+						{"t":1, "r":2, "b":1, "l":2}]
+			}
+		]
+	}
+}
