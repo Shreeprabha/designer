@@ -127,58 +127,38 @@ ORYX.Core.StencilSet.Property = Clazz.extend({
         	jsonProp.directlyEditable = true;
         }
 		
-		if(!jsonProp.visible) {
+		if(jsonProp.visible !== false) {
 			jsonProp.visible = true;
-		}
-		
-		if(!jsonProp.fortasktypes) {
-			jsonProp.fortasktypes = "";
-		}
-
-        if(!jsonProp.ifproptrue) {
-            jsonProp.ifproptrue = "";
-        }
-		
-		if(!jsonProp.fordistribution) {
-			jsonProp.fordistribution = "";
 		}
 		
 		if(!jsonProp.popular) {
 			jsonProp.popular = false;
 		}
-		
-		if(!jsonProp.simulation) {
-			jsonProp.simulation = false;
-		}
         
-        if (jsonProp.complexItems && jsonProp.complexItems instanceof Array) {
-            jsonProp.complexItems.each((function(jsonComplexItem){
-               try {
-                    this._complexItems[jsonComplexItem.id] = new ORYX.Core.StencilSet.ComplexPropertyItem(jsonComplexItem, namespace, this);
-                } catch(e) {
-                    ORYX.Log.error("error while initializing complex items for " + jsonProp.title);
-                    ORYX.Log.error(e);
-                }
-            }).bind(this));
-        }
-
-        if ( (jsonProp.type === ORYX.CONFIG.TYPE_CHOICE) || (jsonProp.type === ORYX.CONFIG.TYPE_DYNAMICCHOICE) ) {
+        if (jsonProp.type === ORYX.CONFIG.TYPE_CHOICE) {
             if (jsonProp.items && jsonProp.items instanceof Array) {
                 jsonProp.items.each((function(jsonItem){
                 	// why is the item's value used as the key???
                     this._items[jsonItem.value] = new ORYX.Core.StencilSet.PropertyItem(jsonItem, namespace, this);
                 }).bind(this));
-            } else {
+            }
+            else {
                 throw "ORYX.Core.StencilSet.Property(construct): No property items defined."
             }
+            // extended by Kerstin (start)
         }
-        if (jsonProp.type === ORYX.CONFIG.TYPE_COMPLEX && jsonProp.complexItems === undefined) {
-            throw "ORYX.Core.StencilSet.Property(construct): No complex property items defined."
-        }    
-        
-        if (jsonProp.labelProvider) {
-            this._labelProvider = jsonProp.labelProvider.transform;
-        }
+        else 
+            if (jsonProp.type === ORYX.CONFIG.TYPE_COMPLEX) {
+                if (jsonProp.complexItems && jsonProp.complexItems instanceof Array) {
+                    jsonProp.complexItems.each((function(jsonComplexItem){
+                        this._complexItems[jsonComplexItem.id] = new ORYX.Core.StencilSet.ComplexPropertyItem(jsonComplexItem, namespace, this);
+                    }).bind(this));
+                }
+                else {
+                    throw "ORYX.Core.StencilSet.Property(construct): No complex property items defined."
+                }
+            }
+        // extended by Kerstin (end)
     },
     
     /**
@@ -218,16 +198,8 @@ ORYX.Core.StencilSet.Property = Clazz.extend({
 		return this._jsonProp.popular;
 	},
 	
-	simulation : function() {
-		return this._jsonProp.simulation;
-	},
-	
 	setPopular: function() {
 		this._jsonProp.popular = true;
-	},
-	
-	setSimulation: function() {
-		this._jsonProp.simulation = true;
 	},
 	
 	directlyEditable: function() {
@@ -237,19 +209,7 @@ ORYX.Core.StencilSet.Property = Clazz.extend({
 	visible: function() {
 		return this._jsonProp.visible;
 	},
-	
-	fortasktypes: function() {
-		return this._jsonProp.fortasktypes;
-	},
-
-    ifproptrue: function() {
-        return this._jsonProp.ifproptrue;
-    },
-
-	fordistribution: function() {
-		return this._jsonProp.fordistribution;
-	},
-	
+    
     title: function(){
         return ORYX.Core.StencilSet.getTranslation(this._jsonProp, "title");
     },
@@ -409,9 +369,5 @@ ORYX.Core.StencilSet.Property = Clazz.extend({
     
     complexAttributeToView: function(){
         return this._jsonProp.complexAttributeToView || "";
-    },
-    
-    labelProvider: function() {
-        return this._labelProvider;
     }
 });

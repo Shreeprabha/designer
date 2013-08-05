@@ -15,13 +15,6 @@
 			"extends":"http://b3mn.org/stencilset/petrinet#"
 		},
 		{
-			"title":"Archive BPMN 2.0 SubSet Extension",
-			"namespace":"http://oryx-editor.org/stencilsets/extensions/archivemin#",
-			"description":"Archive subsetthat reduces the available stencils.",
-			"definition":"archivemin/archivemin.json",
-			"extends":"http://b3mn.org/stencilset/archive#"
-		},
-		{
 			"title":"BPMN Cost Extension",
 			"namespace":"http://oryx-editor.org/stencilsets/extensions/bpmncosts#",
 			"description":"BPMN 1.1 extension for adding a cost attribute to activities",
@@ -56,6 +49,7 @@
 			"definition":"bpmn2.0complianceTemplate/bpmn2.0complianceTemplate.json",
 			"extends":"http://b3mn.org/stencilset/bpmn2.0#"
 		},
+
 		{
 			"title" : "BPMN 2.0 Basic Subset",
 			"namespace" : "http://oryx-editor.org/stencilsets/extensions/bpmn2.0basicsubset#",
@@ -77,33 +71,33 @@
 			"definition":"tbpm/tbpm-photo.json",
 			"extends":"http://b3mn.org/stencilset/bpmn2.0#"
 		},
-		{
-			    "title":"BPMN Subset for Service Composition",
-			    "namespace":"http://oryx-editor.org/stencilsets/extensions/bpmnservicecompositionsubset#",
-			    "description":"A basic subset of BPMN that can be used in the Service Composer.",
-			    "definition":"bpmnservicecompositionsubset/bpmnservicecompositionsubset.json",
-			    "extends":"http://b3mn.org/stencilset/bpmn1.1#"
+        {
+            "title":"BPMN Subset for Service Composition",
+            "namespace":"http://oryx-editor.org/stencilsets/extensions/bpmnservicecompositionsubset#",
+            "description":"A basic subset of BPMN that can be used in the Service Composer.",
+            "definition":"bpmnservicecompositionsubset/bpmnservicecompositionsubset.json",
+            "extends":"http://b3mn.org/stencilset/bpmn1.1#"
 		},
 		{
-			    "title":"BPMN Subset for Service Composition in GoldenEye",
-			    "namespace":"http://oryx-editor.org/stencilsets/extensions/bpmnservicecompositionsubset-goldeneye#",
-			    "description":"A basic subset of BPMN that can be used in the Service Composer.",
-			    "definition":"bpmnservicecompositionsubset/bpmnservicecompositionsubset_goldeneye.json",
-			    "extends":"http://b3mn.org/stencilset/bpmn1.1#"
+            "title":"BPMN Subset for Service Composition in GoldenEye",
+            "namespace":"http://oryx-editor.org/stencilsets/extensions/bpmnservicecompositionsubset-goldeneye#",
+            "description":"A basic subset of BPMN that can be used in the Service Composer.",
+            "definition":"bpmnservicecompositionsubset/bpmnservicecompositionsubset_goldeneye.json",
+            "extends":"http://b3mn.org/stencilset/bpmn1.1#"
 		},
-		{
-			    "title":"BPMN Extension for XForms User Interfaces",
-			    "namespace":"http://oryx-editor.org/stencilsets/extensions/bpmn-xforms-user-interfaces#",
-			    "description":"Extension for adding XForms user interface attributes to BPMN Tasks.",
-			    "definition":"bpmn-xforms-user-interfaces/bpmn-xforms-user-interfaces.json",
-			    "extends":"http://b3mn.org/stencilset/bpmn1.1#"
+        {
+            "title":"BPMN Extension for XForms User Interfaces",
+            "namespace":"http://oryx-editor.org/stencilsets/extensions/bpmn-xforms-user-interfaces#",
+            "description":"Extension for adding XForms user interface attributes to BPMN Tasks.",
+            "definition":"bpmn-xforms-user-interfaces/bpmn-xforms-user-interfaces.json",
+            "extends":"http://b3mn.org/stencilset/bpmn1.1#"
 		},
-		{
-			    "title":"BPMN Subset for Design Thinking User Research",
-			    "namespace":"http://oryx-editor.org/stencilsets/extensions/bpmn-design-thinking-subset#",
-			    "description":"A basic subset of BPMN that can be used for user research.",
-			    "definition":"bpmn-design-thinking-subset/bpmn-design-thinking-subset.json",
-			    "extends":"http://b3mn.org/stencilset/bpmn1.1#"
+        {
+            "title":"BPMN Subset for Design Thinking User Research",
+            "namespace":"http://oryx-editor.org/stencilsets/extensions/bpmn-design-thinking-subset#",
+            "description":"A basic subset of BPMN that can be used for user research.",
+            "definition":"bpmn-design-thinking-subset/bpmn-design-thinking-subset.json",
+            "extends":"http://b3mn.org/stencilset/bpmn1.1#"
 		},
 		{
 			"title":"BPEL4Chor Extension",
@@ -127,11 +121,11 @@
 			"extends":"http://b3mn.org/stencilset/bpel4chor#"
 		},
 		{
-			    "title":"BPMN Subset for YAWL execution",
-			    "namespace":"http://oryx-editor.org/stencilsets/extensions/bpmn4yawlSubset#",
-			    "description":"A subset of BPMN that can be mapped to YAWL for execution.",
-			    "definition":"bpmn4yawl/bpmn4yawlSubset.json",
-			    "extends":"http://b3mn.org/stencilset/bpmn1.1#"
+            "title":"BPMN Subset for YAWL execution",
+            "namespace":"http://oryx-editor.org/stencilsets/extensions/bpmn4yawlSubset#",
+            "description":"A subset of BPMN that can be mapped to YAWL for execution.",
+            "definition":"bpmn4yawl/bpmn4yawlSubset.json",
+            "extends":"http://b3mn.org/stencilset/bpmn1.1#"
 		},
 		{
 			"title":"iBPMN Fault Handling Extension",
@@ -153,13 +147,6 @@
 			"description":"Adds support for a basic subset of Choreography-Diagrams to BPMN 2.0.",
 			"definition":"bpmn2.0basicsubset/bpmn2.0basicsubset.choreography.json",
 			"extends":"http://b3mn.org/stencilset/bpmn2.0#"
-		},
-		{
-			"title" : "Archive BPMN 2.0 Basic Subset",
-			"namespace" : "http://oryx-editor.org/stencilsets/extensions/archivesub#",
-			"description":"A basic subset of BPMN 2.0 containing only task, sequence flow, start event, end event, parallel gateway and data-based XOR.",
-			"definition":"archivesub/archivesub.json",
-			"extends":"http://b3mn.org/stencilset/archive#"
 		}
 	],
 	"perspectives": [
@@ -170,15 +157,6 @@
 			"stencilset":"http://b3mn.org/stencilset/bpmn1.1#",
 			"removeExtensions":[
 				"http://oryx-editor.org/stencilsets/extensions/bpmn1.1basicsubset#"
-			]
-		},
-		{
-			"title":"Archive (Complete)",
-			"namespace":"http://oryx-editor.org/stencilsets/perspectives/archivecomplete#",
-			"description":"Academic perspective on BPMN. Features the complete standard.",
-			"stencilset":"http://b3mn.org/stencilset/archive#",
-			"removeExtensions":[
-				"http://oryx-editor.org/stencilsets/extensions/archivemin#"
 			]
 		},
 		{
@@ -200,14 +178,6 @@
 				"http://oryx-editor.org/stencilsets/extensions/bpmn2.0basicsubset/choreography#"
 			],
 			"addExtensions" : []
-		},
-		{
-			"title":"Archive (Optimal)",
-			"namespace":"http://oryx-editor.org/stencilsets/perspectives/archiveoptimal#",
-			"description":"Academic perspective on BPMN 2.0. Features the complete standard.",
-			"stencilset":"http://b3mn.org/stencilset/archive#",
-			"removeExtensions" : [],
-			"addExtensions" : ["http://oryx-editor.org/stencilsets/extensions/archivemin#"]
 		},
 		{
 			"title" : "Beginner BPMN 2.0",

@@ -437,8 +437,7 @@
 			<requires namespace="http://b3mn.org/stencilset/umlsequence#"/>	
 		</plugin>
 		
-		<plugin source="simulation.js" name="ORYX.Plugins.Simulation"/>
-		<plugin source="simulationresults.js" name="ORYX.Plugins.SimulationResults"/>
+		
 	</plugins>
 
 	
