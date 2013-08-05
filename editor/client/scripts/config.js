@@ -191,7 +191,15 @@ ORYX.CONFIG.EVENT_WINDOW_FOCUS =            "window.focus";  // raised by plugin
 ORYX.CONFIG.EVENT_TBPM_BACKGROUND_UPDATE =	"tbpm.background";
 ORYX.CONFIG.EVENT_MODEL_SAVED =				"model.saved";
 ORYX.CONFIG.EVENT_REGISTER_LABEL_TEMPLATE = "register.label.template";
-	
+ORYX.CONFIG.EVENT_SIMULATION_SHOW_RESULTS = "simulation.showresults";
+ORYX.CONFIG.EVENT_SIMULATION_DISPLAY_GRAPH = "simulation.displaygraph";
+ORYX.CONFIG.EVENT_SIMULATION_BUILD_PATH_SVG = "simulation.buildpathsvg";
+ORYX.CONFIG.EVENT_SIMULATION_CLEAR_PATH_SVG = "simulation.clearpathsvg";
+ORYX.CONFIG.EVENT_SIMULATION_PATH_SVG_GENERATED = "simulation.pathsvggenerated";
+ORYX.CONFIG.EVENT_SIMULATION_ANNOTATE_PROCESS = "simulation.annotateprocess";
+ORYX.CONFIG.EVENT_SIMULATION_SHOW_ANNOTATED_PROCESS = "simulation.showannotatedprocess";
+ORYX.CONFIG.EVENT_NOTIFICATION_SHOW = "notification.show";
+
 	/* Selection Shapes Highlights */
 ORYX.CONFIG.SELECTION_HIGHLIGHT_SIZE =				5;
 ORYX.CONFIG.SELECTION_HIGHLIGHT_COLOR =				"#4444FF";

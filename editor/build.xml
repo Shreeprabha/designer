@@ -114,6 +114,10 @@
         <copy todir='${editor-build-root}/css'>
             <fileset dir='${editor-src-client}/css'/>
         </copy>
+		 <copy todir='${editor-build-root}/simulation'>
+            <fileset dir='${editor-src-client}/simulation
+			'/>
+        </copy>
         <echo>
             Copied example files into build destination
         </echo>
