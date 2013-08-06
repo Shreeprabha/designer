@@ -6,5 +6,14 @@
             "uri":"/bpmn2.0/bpmn2.0.json",
             "icon_url":"/bpmn2.0/bpmn2.0.png",
             "visible":true
+        },
+	{
+            "title":"Archive",
+            "namespace":"http://b3mn.org/stencilset/archive#",
+            "description":"Archive stencil set specification for processes.",
+            "uri":"/archive/archive.json",
+            "icon_url":"/archive/archive.png",
+            "visible":true
         }
+
 ]
