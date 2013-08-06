@@ -2051,7 +2051,7 @@ ORYX.CONFIG.META_KEY_SHIFT = 			"shift";
 ORYX.CONFIG.KEY_ACTION_DOWN = 			"down";
 ORYX.CONFIG.KEY_ACTION_UP = 			"up";
 
-/** * Copyright (c) 2006 * Martin Czuchra, Nicolas Peters, Daniel Polak, Willi Tscheschner * * Permission is hereby granted, free of charge, to any person obtaining a * copy of this software and associated documentation files (the "Software"), * to deal in the Software without restriction, including without limitation * the rights to use, copy, modify, merge, publish, distribute, sublicense, * and/or sell copies of the Software, and to permit persons to whom the * Software is furnished to do so, subject to the following conditions: * * The above copyright notice and this permission notice shall be included in * all copies or substantial portions of the Software. * * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER * DEALINGS IN THE SOFTWARE. **/function printf() {		var result = arguments[0];	for (var i=1; i<arguments.length; i++)		result = result.replace('%' + (i-1), arguments[i]);	return result;}// oryx constants.var ORYX_LOGLEVEL_TRACE = 5;var ORYX_LOGLEVEL_DEBUG = 4;var ORYX_LOGLEVEL_INFO = 3;var ORYX_LOGLEVEL_WARN = 2;var ORYX_LOGLEVEL_ERROR = 1;var ORYX_LOGLEVEL_FATAL = 0;var ORYX_LOGLEVEL = 1;var ORYX_CONFIGURATION_DELAY = 100;var ORYX_CONFIGURATION_WAIT_ATTEMPTS = 10;if(!ORYX) var ORYX = {};ORYX = Object.extend(ORYX, {	//set the path in the config.js file!!!!	PATH: ORYX.CONFIG.ROOT_PATH,	//CONFIGURATION: "config.js",	URLS: [			/*		 * No longer needed, since compiled into one source file that		 * contains all of this files concatenated in the exact order		 * as defined in build.xml.		 */		/*		"scripts/Core/SVG/editpathhandler.js",		"scripts/Core/SVG/minmaxpathhandler.js",		"scripts/Core/SVG/pointspathhandler.js",		"scripts/Core/SVG/svgmarker.js",		"scripts/Core/SVG/svgshape.js",		"scripts/Core/SVG/label.js",		"scripts/Core/Math/math.js",				"scripts/Core/StencilSet/stencil.js",		"scripts/Core/StencilSet/property.js",		"scripts/Core/StencilSet/propertyitem.js",		"scripts/Core/StencilSet/rules.js",		"scripts/Core/StencilSet/stencilset.js",		"scripts/Core/StencilSet/stencilsets.js",		"scripts/Core/bounds.js",		"scripts/Core/uiobject.js",		"scripts/Core/abstractshape.js",		"scripts/Core/canvas.js",		"scripts/Core/main.js",		"scripts/Core/svgDrag.js",		"scripts/Core/shape.js",		"scripts/Core/Controls/control.js",		"scripts/Core/Controls/docker.js",		"scripts/Core/Controls/magnet.js",				"scripts/Core/node.js",		"scripts/Core/edge.js"*/	],	alreadyLoaded: [],	configrationRetries: 0,	Version: '0.1.1',	availablePlugins: [],	/**	 * The ORYX.Log logger.	 */	Log: {				__appenders: [			{				// Firebug console log appender, 				// will only react if window.console is present				append: function(level, args) {										//			messageParts[0] = (new Date()).getTime() + " "					//				+ prefix + " " + messageParts[0];					//			var message = printf.apply(null, args);										if (window.console) {						switch(level) {							case 'TRACE': 	                            args.unshift("[TRACE|" + (new Date()).getTime()+"]"); 								// missing break is intentional							case 'DEBUG':								window.console.debug.apply(window.console, args); 								break;							case 'INFO':								window.console.info.apply(window.console, args); 							break;							case 'WARN':								window.console.warn.apply(window.console, args); 								break;							case 'FATAL':								args.unshift("[FATAL]"); 								// missing break is intentional							case 'ERROR':								window.console.error.apply(window.console, args); 								break;							default:								args.unshift("["+level.toUpperCase()+"]");								window.console.log.apply(window.console, args); 						}						}				}			}		],			trace: function() {	if(ORYX_LOGLEVEL >= ORYX_LOGLEVEL_TRACE)			ORYX.Log.__log('TRACE', arguments); },		debug: function() { if(ORYX_LOGLEVEL >= ORYX_LOGLEVEL_DEBUG)			ORYX.Log.__log('DEBUG', arguments); },		info: function() { if(ORYX_LOGLEVEL >= ORYX_LOGLEVEL_INFO)			ORYX.Log.__log('INFO', arguments); },		warn: function() { if(ORYX_LOGLEVEL >= ORYX_LOGLEVEL_WARN)			ORYX.Log.__log('WARN', arguments); },		error: function() { if(ORYX_LOGLEVEL >= ORYX_LOGLEVEL_ERROR)			ORYX.Log.__log('ERROR', arguments); },		fatal: function() { if(ORYX_LOGLEVEL >= ORYX_LOGLEVEL_FATAL)			ORYX.Log.__log('FATAL', arguments); },				__log: function(prefix, args) {						ORYX.Log.__appenders.each(function(appender) {				appender.append(prefix, $A(args));			});		},				addAppender: function(appender) {			ORYX.Log.__appenders.push(appender);		}	},	/**	 * First bootstrapping layer. The Oryx loading procedure begins. In this	 * step, all preliminaries that are not in the responsibility of Oryx to be	 * met have to be checked here, such as the existance of the prototpe	 * library in the current execution environment. After that, the second	 * bootstrapping layer is being invoked. Failing to ensure that any	 * preliminary condition is not met has to fail with an error.	 */	load: function() {		var waitingpanel = new Ext.Window({renderTo:Ext.getBody(),id:'oryx-loading-panel',bodyStyle:'padding: 8px;background:white',title:ORYX.I18N.Oryx.title,width:'auto',height:'auto',modal:true,resizable:false,closable:false,html:'<span style="font-size:11px;">' + ORYX.I18N.Oryx.pleaseWait + '</span>'})		waitingpanel.show()						ORYX.Log.debug("Oryx begins loading procedure.");				// check for prototype		if( (typeof Prototype=='undefined') ||			(typeof Element == 'undefined') ||			(typeof Element.Methods=='undefined') ||			parseFloat(Prototype.Version.split(".")[0] + "." +				Prototype.Version.split(".")[1]) < 1.5)			throw("Application requires the Prototype JavaScript framework >= 1.5.3");				ORYX.Log.debug("Prototype > 1.5 found.");		// continue loading.		ORYX._load();	},	/**	 * Second bootstrapping layer. The oryx configuration is checked. When not	 * yet loaded, config.js is being requested from the server. A repeated	 * error in retrieving the configuration will result in an error to be	 * thrown after a certain time of retries. Once the configuration is there,	 * all urls that are registered with oryx loading are being requested from	 * the server. Once everything is loaded, the third layer is being invoked.	 */	_load: function() {	/*		// if configuration not there already,		if(!(ORYX.CONFIG)) {						// if this is the first attempt...			if(ORYX.configrationRetries == 0) {								// get the path and filename.				var configuration = ORYX.PATH + ORYX.CONFIGURATION;					ORYX.Log.debug("Configuration not found, loading from '%0'.",					configuration);								// require configuration file.				Kickstart.require(configuration);							// else if attempts exceeded ...			} else if(ORYX.configrationRetries >= ORYX_CONFIGURATION_WAIT_ATTEMPTS) {								throw "Tried to get configuration" +					ORYX_CONFIGURATION_WAIT_ATTEMPTS +					" times from '" + configuration + "'. Giving up."								} else if(ORYX.configrationRetries > 0){								// point out how many attempts are left...				ORYX.Log.debug("Waiting once more (%0 attempts left)",					(ORYX_CONFIGURATION_WAIT_ATTEMPTS -						ORYX.configrationRetries));			}						// any case: continue in a moment with increased retry count.			ORYX.configrationRetries++;			window.setTimeout(ORYX._load, ORYX_CONFIGURATION_DELAY);			return;		}				ORYX.Log.info("Configuration loaded.");				// load necessary scripts.		ORYX.URLS.each(function(url) {			ORYX.Log.debug("Requireing '%0'", url);			Kickstart.require(ORYX.PATH + url) });	*/		// configurate logging and load plugins.		ORYX.loadPlugins();	},	/**	 * Third bootstrapping layer. This is where first the plugin coniguration	 * file is loaded into oryx, analyzed, and where all plugins are being	 * requested by the server. Afterwards, all editor instances will be	 * initialized.	 */	loadPlugins: function() {				// load plugins if enabled.		if(ORYX.CONFIG.PLUGINS_ENABLED)			ORYX._loadPlugins()		else			ORYX.Log.warn("Ignoring plugins, loading Core only.");		// init the editor instances.		init();	},		_loadPlugins: function() {		// load plugin configuration file.		var source = ORYX.CONFIG.PLUGINS_CONFIG;		ORYX.Log.debug("Loading plugin configuration from '%0'.", source);			new Ajax.Request(source, {			asynchronous: false,			method: 'get',			onSuccess: function(result) {				/*				 * This is the method that is being called when the plugin				 * configuration was successfully loaded from the server. The				 * file has to be processed and the contents need to be				 * considered for further plugin requireation.				 */								ORYX.Log.info("Plugin configuration file loaded.");						// get plugins.xml content				var resultXml = result.responseXML;								// TODO: Describe how properties are handled.				// Get the globale Properties				var globalProperties = [];				var preferences = $A(resultXml.getElementsByTagName("properties"));				preferences.each( function(p) {					var props = $A(p.childNodes);					props.each( function(prop) {						var property = new Hash(); 												// get all attributes from the node and set to global properties						var attributes = $A(prop.attributes)						attributes.each(function(attr){property[attr.nodeName] = attr.nodeValue});										if(attributes.length > 0) { globalProperties.push(property) };									});				});								// TODO Why are we using XML if we don't respect structure anyway?				// for each plugin element in the configuration..				var plugin = resultXml.getElementsByTagName("plugin");				$A(plugin).each( function(node) {										// get all element's attributes.					// TODO: What about: var pluginData = $H(node.attributes) !?					var pluginData = new Hash();					$A(node.attributes).each( function(attr){						pluginData[attr.nodeName] = attr.nodeValue});														// ensure there's a name attribute.					if(!pluginData['name']) {						ORYX.Log.error("A plugin is not providing a name. Ingnoring this plugin.");						return;					}					// ensure there's a source attribute.					if(!pluginData['source']) {						ORYX.Log.error("Plugin with name '%0' doesn't provide a source attribute.", pluginData['name']);						return;					}										// Get all private Properties					var propertyNodes = node.getElementsByTagName("property");					var properties = [];					$A(propertyNodes).each(function(prop) {						var property = new Hash(); 												// Get all Attributes from the Node									var attributes = $A(prop.attributes)						attributes.each(function(attr){property[attr.nodeName] = attr.nodeValue});										if(attributes.length > 0) { properties.push(property) };											});										// Set all Global-Properties to the Properties					properties = properties.concat(globalProperties);										// Set Properties to Plugin-Data					pluginData['properties'] = properties;										// Get the RequieredNodes					var requireNodes = node.getElementsByTagName("requires");					var requires;					$A(requireNodes).each(function(req) {									var namespace = $A(req.attributes).find(function(attr){ return attr.name == "namespace"})						if( namespace && namespace.nodeValue ){							if( !requires ){								requires = {namespaces:[]}							}													requires.namespaces.push(namespace.nodeValue)						} 					});															// Set Requires to the Plugin-Data, if there is one					if( requires ){						pluginData['requires'] = requires;					}					// Get the RequieredNodes					var notUsesInNodes = node.getElementsByTagName("notUsesIn");					var notUsesIn;					$A(notUsesInNodes).each(function(not) {									var namespace = $A(not.attributes).find(function(attr){ return attr.name == "namespace"})						if( namespace && namespace.nodeValue ){							if( !notUsesIn ){								notUsesIn = {namespaces:[]}							}													notUsesIn.namespaces.push(namespace.nodeValue)						} 					});															// Set Requires to the Plugin-Data, if there is one					if( notUsesIn ){						pluginData['notUsesIn'] = notUsesIn;					}																				var url = ORYX.PATH + ORYX.CONFIG.PLUGINS_FOLDER + pluginData['source'];							ORYX.Log.debug("Requireing '%0'", url);							// Add the Script-Tag to the Site					//Kickstart.require(url);							ORYX.Log.info("Plugin '%0' successfully loaded.", pluginData['name']);							// Add the Plugin-Data to all available Plugins					ORYX.availablePlugins.push(pluginData);						});					},			onFailure:this._loadPluginsOnFails		});	},	_loadPluginsOnFails: function(result) {		ORYX.Log.error("Plugin configuration file not available.");	}});ORYX.Log.debug('Registering Oryx with Kickstart');Kickstart.register(ORYX.load);/**
+/** * Copyright (c) 2006 * Martin Czuchra, Nicolas Peters, Daniel Polak, Willi Tscheschner * * Permission is hereby granted, free of charge, to any person obtaining a * copy of this software and associated documentation files (the "Software"), * to deal in the Software without restriction, including without limitation * the rights to use, copy, modify, merge, publish, distribute, sublicense, * and/or sell copies of the Software, and to permit persons to whom the * Software is furnished to do so, subject to the following conditions: * * The above copyright notice and this permission notice shall be included in * all copies or substantial portions of the Software. * * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER * DEALINGS IN THE SOFTWARE. **/function printf() {		var result = arguments[0];	for (var i=1; i<arguments.length; i++)		result = result.replace('%' + (i-1), arguments[i]);	return result;}// oryx constants.var ORYX_LOGLEVEL_TRACE = 5;var ORYX_LOGLEVEL_DEBUG = 4;var ORYX_LOGLEVEL_INFO = 3;var ORYX_LOGLEVEL_WARN = 2;var ORYX_LOGLEVEL_ERROR = 1;var ORYX_LOGLEVEL_FATAL = 0;var ORYX_LOGLEVEL = 1;var ORYX_CONFIGURATION_DELAY = 100;var ORYX_CONFIGURATION_WAIT_ATTEMPTS = 10;if(!ORYX) var ORYX = {};ORYX = Object.extend(ORYX, {	//set the path in the config.js file!!!!	PATH: ORYX.CONFIG.ROOT_PATH,	//CONFIGURATION: "config.js",	URLS: [		],	alreadyLoaded: [],	configrationRetries: 0,	Version: '0.1.1',	availablePlugins: [],	/**	 * The ORYX.Log logger.	 */	Log: {				__appenders: [			{				// Firebug console log appender, 				// will only react if window.console is present				append: function(level, args) {										//			messageParts[0] = (new Date()).getTime() + " "					//				+ prefix + " " + messageParts[0];					//			var message = printf.apply(null, args);										if (window.console) {						switch(level) {							case 'TRACE': 	                            args.unshift("[TRACE|" + (new Date()).getTime()+"]"); 								// missing break is intentional							case 'DEBUG':								window.console.debug.apply(window.console, args); 								break;							case 'INFO':								window.console.info.apply(window.console, args); 							break;							case 'WARN':								window.console.warn.apply(window.console, args); 								break;							case 'FATAL':								args.unshift("[FATAL]"); 								// missing break is intentional							case 'ERROR':								window.console.error.apply(window.console, args); 								break;							default:								args.unshift("["+level.toUpperCase()+"]");								window.console.log.apply(window.console, args); 						}						}				}			}		],			trace: function() {	if(ORYX_LOGLEVEL >= ORYX_LOGLEVEL_TRACE)			ORYX.Log.__log('TRACE', arguments); },		debug: function() { if(ORYX_LOGLEVEL >= ORYX_LOGLEVEL_DEBUG)			ORYX.Log.__log('DEBUG', arguments); },		info: function() { if(ORYX_LOGLEVEL >= ORYX_LOGLEVEL_INFO)			ORYX.Log.__log('INFO', arguments); },		warn: function() { if(ORYX_LOGLEVEL >= ORYX_LOGLEVEL_WARN)			ORYX.Log.__log('WARN', arguments); },		error: function() { if(ORYX_LOGLEVEL >= ORYX_LOGLEVEL_ERROR)			ORYX.Log.__log('ERROR', arguments); },		fatal: function() { if(ORYX_LOGLEVEL >= ORYX_LOGLEVEL_FATAL)			ORYX.Log.__log('FATAL', arguments); },				__log: function(prefix, args) {						ORYX.Log.__appenders.each(function(appender) {				appender.append(prefix, $A(args));			});		},				addAppender: function(appender) {			ORYX.Log.__appenders.push(appender);		}	},	/**	 * First bootstrapping layer. The Oryx loading procedure begins. In this	 * step, all preliminaries that are not in the responsibility of Oryx to be	 * met have to be checked here, such as the existance of the prototpe	 * library in the current execution environment. After that, the second	 * bootstrapping layer is being invoked. Failing to ensure that any	 * preliminary condition is not met has to fail with an error.	 */	load: function() {		var waitingpanel = new Ext.Window({renderTo:Ext.getBody(),id:'oryx-loading-panel',bodyStyle:'padding: 8px;background:white',title:ORYX.I18N.Oryx.title,width:'auto',height:'auto',modal:true,resizable:false,closable:false,html:'<span style="font-size:11px;">' + ORYX.I18N.Oryx.pleaseWait + '</span>'})		waitingpanel.show()						ORYX.Log.debug("Oryx begins loading procedure.");				// check for prototype		if( (typeof Prototype=='undefined') ||			(typeof Element == 'undefined') ||			(typeof Element.Methods=='undefined') ||			parseFloat(Prototype.Version.split(".")[0] + "." +				Prototype.Version.split(".")[1]) < 1.5)			throw("Application requires the Prototype JavaScript framework >= 1.5.3");				ORYX.Log.debug("Prototype > 1.5 found.");		// continue loading.		ORYX._load();	},	/**	 * Second bootstrapping layer. The oryx configuration is checked. When not	 * yet loaded, config.js is being requested from the server. A repeated	 * error in retrieving the configuration will result in an error to be	 * thrown after a certain time of retries. Once the configuration is there,	 * all urls that are registered with oryx loading are being requested from	 * the server. Once everything is loaded, the third layer is being invoked.	 */	_load: function() {	/*		// if configuration not there already,		if(!(ORYX.CONFIG)) {						// if this is the first attempt...			if(ORYX.configrationRetries == 0) {								// get the path and filename.				var configuration = ORYX.PATH + ORYX.CONFIGURATION;					ORYX.Log.debug("Configuration not found, loading from '%0'.",					configuration);								// require configuration file.				Kickstart.require(configuration);							// else if attempts exceeded ...			} else if(ORYX.configrationRetries >= ORYX_CONFIGURATION_WAIT_ATTEMPTS) {								throw "Tried to get configuration" +					ORYX_CONFIGURATION_WAIT_ATTEMPTS +					" times from '" + configuration + "'. Giving up."								} else if(ORYX.configrationRetries > 0){								// point out how many attempts are left...				ORYX.Log.debug("Waiting once more (%0 attempts left)",					(ORYX_CONFIGURATION_WAIT_ATTEMPTS -						ORYX.configrationRetries));			}						// any case: continue in a moment with increased retry count.			ORYX.configrationRetries++;			window.setTimeout(ORYX._load, ORYX_CONFIGURATION_DELAY);			return;		}				ORYX.Log.info("Configuration loaded.");				// load necessary scripts.		ORYX.URLS.each(function(url) {			ORYX.Log.debug("Requireing '%0'", url);			Kickstart.require(ORYX.PATH + url) });	*/		// configurate logging and load plugins.		ORYX.loadPlugins();	},	/**	 * Third bootstrapping layer. This is where first the plugin coniguration	 * file is loaded into oryx, analyzed, and where all plugins are being	 * requested by the server. Afterwards, all editor instances will be	 * initialized.	 */	loadPlugins: function() {				// load plugins if enabled.		if(ORYX.CONFIG.PLUGINS_ENABLED)			ORYX._loadPlugins()		else			ORYX.Log.warn("Ignoring plugins, loading Core only.");		// init the editor instances.		init();	},		_loadPlugins: function() {		// load plugin configuration file.		var source = ORYX.CONFIG.PLUGINS_CONFIG;		ORYX.Log.debug("Loading plugin configuration from '%0'.", source);			new Ajax.Request(source, {			asynchronous: false,			method: 'get',			onSuccess: function(result) {				/*				 * This is the method that is being called when the plugin				 * configuration was successfully loaded from the server. The				 * file has to be processed and the contents need to be				 * considered for further plugin requireation.				 */								ORYX.Log.info("Plugin configuration file loaded.");						// get plugins.xml content				var resultXml = result.responseXML;								// TODO: Describe how properties are handled.				// Get the globale Properties				var globalProperties = [];				var preferences = $A(resultXml.getElementsByTagName("properties"));				preferences.each( function(p) {					var props = $A(p.childNodes);					props.each( function(prop) {						var property = new Hash(); 												// get all attributes from the node and set to global properties						var attributes = $A(prop.attributes)						attributes.each(function(attr){property[attr.nodeName] = attr.nodeValue});										if(attributes.length > 0) { globalProperties.push(property) };									});				});								// TODO Why are we using XML if we don't respect structure anyway?				// for each plugin element in the configuration..				var plugin = resultXml.getElementsByTagName("plugin");				$A(plugin).each( function(node) {										// get all element's attributes.					// TODO: What about: var pluginData = $H(node.attributes) !?					var pluginData = new Hash();					$A(node.attributes).each( function(attr){						pluginData[attr.nodeName] = attr.nodeValue});														// ensure there's a name attribute.					if(!pluginData['name']) {						ORYX.Log.error("A plugin is not providing a name. Ingnoring this plugin.");						return;					}					// ensure there's a source attribute.					if(!pluginData['source']) {						ORYX.Log.error("Plugin with name '%0' doesn't provide a source attribute.", pluginData['name']);						return;					}										// Get all private Properties					var propertyNodes = node.getElementsByTagName("property");					var properties = [];					$A(propertyNodes).each(function(prop) {						var property = new Hash(); 												// Get all Attributes from the Node									var attributes = $A(prop.attributes)						attributes.each(function(attr){property[attr.nodeName] = attr.nodeValue});										if(attributes.length > 0) { properties.push(property) };											});										// Set all Global-Properties to the Properties					properties = properties.concat(globalProperties);										// Set Properties to Plugin-Data					pluginData['properties'] = properties;										// Get the RequieredNodes					var requireNodes = node.getElementsByTagName("requires");					var requires;					$A(requireNodes).each(function(req) {									var namespace = $A(req.attributes).find(function(attr){ return attr.name == "namespace"})						if( namespace && namespace.nodeValue ){							if( !requires ){								requires = {namespaces:[]}							}													requires.namespaces.push(namespace.nodeValue)						} 					});															// Set Requires to the Plugin-Data, if there is one					if( requires ){						pluginData['requires'] = requires;					}					// Get the RequieredNodes					var notUsesInNodes = node.getElementsByTagName("notUsesIn");					var notUsesIn;					$A(notUsesInNodes).each(function(not) {									var namespace = $A(not.attributes).find(function(attr){ return attr.name == "namespace"})						if( namespace && namespace.nodeValue ){							if( !notUsesIn ){								notUsesIn = {namespaces:[]}							}													notUsesIn.namespaces.push(namespace.nodeValue)						} 					});															// Set Requires to the Plugin-Data, if there is one					if( notUsesIn ){						pluginData['notUsesIn'] = notUsesIn;					}																				var url = ORYX.PATH + ORYX.CONFIG.PLUGINS_FOLDER + pluginData['source'];							ORYX.Log.debug("Requireing '%0'", url);							// Add the Script-Tag to the Site					//Kickstart.require(url);							ORYX.Log.info("Plugin '%0' successfully loaded.", pluginData['name']);							// Add the Plugin-Data to all available Plugins					ORYX.availablePlugins.push(pluginData);						});					},			onFailure:this._loadPluginsOnFails		});	},	_loadPluginsOnFails: function(result) {		ORYX.Log.error("Plugin configuration file not available.");	}});ORYX.Log.debug('Registering Oryx with Kickstart');Kickstart.register(ORYX.load);/**
  * Copyright (c) 2006
  * Martin Czuchra, Nicolas Peters, Daniel Polak, Willi Tscheschner
  *
@@ -37146,9 +37146,26 @@ ORYX.Plugins.UMLSequence = Clazz.extend({
 if (!ORYX.Config)
 	ORYX.Config = {};
 
+
 ORYX.Plugins.Simulation = Clazz.extend({
 	construct: function(facade){
 		this.facade = facade;
+		
+		this.facade.offer({
+			'name': "Procesinggs Paths",
+			'functionality': this.findPaths.bind(this),
+			'group': "validationandsimulation",
+			'icon': ORYX.PATH + "images/path.png",
+			'dropDownGroupIcon' : ORYX.PATH + "images/simulation.png",
+			'description': "Display Process Paths",
+			'index': 1,
+			'minShape': 0,
+			'maxShape': 0,
+			'isEnabled': function(){
+                return true;
+
+			}.bind(this)
+		});
 		
 		this.facade.offer({
 			'name': "Run Simulation",
@@ -37168,7 +37185,340 @@ ORYX.Plugins.Simulation = Clazz.extend({
 		this.facade.registerOnEvent(ORYX.CONFIG.EVENT_SIMULATION_BUILD_PATH_SVG, this.autoDisplayPath.bind(this));
 		this.facade.registerOnEvent(ORYX.CONFIG.EVENT_SIMULATION_CLEAR_PATH_SVG, this.resetNodeColors.bind(this));
 	},
-	
+	autoDisplayPath : function(options) {
+		if(options && options.pid) {
+			var pathid = options.pid;
+
+            this.facade.raiseEvent({
+                type 		: ORYX.CONFIG.EVENT_NOTIFICATION_SHOW,
+                ntype		: 'info',
+                msg         : 'Creating path image.',
+                title       : ''
+
+            });
+
+var serial = this.facade.getSerializedJSON();
+			Ext.Ajax.request({
+	            url: ORYX.PATH + 'simulation',
+	            method: 'POST',
+	            success: function(response) {
+	    	   		
+
+					try {
+	    	   			if(response.responseText && response.responseText.length > 0) {
+	    	   				var pathjson = response.responseText.evalJSON();
+	    	   				var pathobj = pathjson["paths"];
+	    	   				for(var key in pathobj) {
+	    	   					if(key == pathid) {
+	    	   						var color = this.getDisplayColor(0);
+	    	   						var val = pathobj[key];
+		    	   		    		this.setNodeColors(key, color, val);
+	    	   					}
+	    	   				}
+	    	   				this.facade.raiseEvent({
+	    	   		            type: ORYX.CONFIG.EVENT_SIMULATION_PATH_SVG_GENERATED
+	    	   				});
+	    	   			} else {
+                               this.facade.raiseEvent({
+                                   type 		: ORYX.CONFIG.EVENT_NOTIFICATION_SHOW,
+                                   ntype		: 'error',
+                                   msg         : 'Invalid Path data.',
+                                   title       : ''
+
+                               });
+	    	   			}
+	    	   		} catch(e) {
+                           this.facade.raiseEvent({
+                               type 		: ORYX.CONFIG.EVENT_NOTIFICATION_SHOW,
+                               ntype		: 'error',
+                               msg         : 'Error finding Paths:\n' + e,
+                               title       : ''
+
+                           });
+	    	   		}
+	            }.bind(this),
+	            failure: function(){
+                    this.facade.raiseEvent({
+                        type 		: ORYX.CONFIG.EVENT_NOTIFICATION_SHOW,
+                        ntype		: 'error',
+                        msg         : 'Error finding Paths.',
+                        title       : ''
+
+                    });
+	            },
+	            params: {
+	            	action: 'getpathinfo',
+	            	json: serial,
+	           
+	            	sel: ""
+	            }
+	        });
+		} else {
+            this.facade.raiseEvent({
+                type 		: ORYX.CONFIG.EVENT_NOTIFICATION_SHOW,
+                ntype		: 'error',
+                msg         : 'Unknown path id.',
+                title       : ''
+
+            });
+		}
+	},
+	findPaths: function() {
+        this.facade.raiseEvent({
+            type 		: ORYX.CONFIG.EVENT_NOTIFICATION_SHOW,
+            ntype		: 'info',
+            msg         : 'Calculating process paths.',
+            title       : ''
+
+        });
+
+		var selection = this.facade.getSelection();
+		var selectedId = "";
+		var wintitle = "Process Paths";
+		if(selection.length == 1) {
+			selection.each(function(shape) {
+				if(shape.getStencil().title() == "Embedded Subprocess") {
+					selectedId = shape.resourceId;
+					wintitle = "Subprocess Paths";
+				}
+			});
+		} 
+		
+		var serial = this.facade.getSerializedJSON();
+		Ext.Ajax.request({
+            url: ORYX.PATH + 'simulation',
+            method: 'POST',
+            success: function(response) {
+    	   		
+				try {
+    	   			if(response.responseText && response.responseText.length > 0) {
+    	   				var pathjson = response.responseText.evalJSON();
+    	   				var pathobj = pathjson["paths"];
+    	   				var ProcessPathsDef = Ext.data.Record.create([{
+    	   		            name: 'display'
+    	   		        }, {
+    	   		        	name: 'numele'
+    	   		        }, {
+    	   		            name: 'pid'
+    	   		        }]);
+    	   		    	
+    	   		    	var processpathsProxy = new Ext.data.MemoryProxy({
+    	   		            root: []
+    	   		        });
+    	   		    	
+    	   		    	var processpathsStore = new Ext.data.Store({
+    	   		    		autoDestroy: true,
+    	   		            reader: new Ext.data.JsonReader({
+    	   		                root: "root"
+    	   		            }, ProcessPathsDef),
+    	   		            proxy: processpathsProxy,
+    	   		            sorters: [{
+    	   		                property: 'display',
+    	   		                direction:'ASC'
+    	   		            }]
+    	   		        });
+    	   		    	processpathsStore.load();
+    	   		    	
+    	   		    	var cindex = 0;
+    	   		    	for(var key in pathobj) {
+    	   		    		var val = pathobj[key];
+    	   		    		var valParts = val.split("|");
+    	   		    		processpathsStore.add(new ProcessPathsDef({
+    	   		    			display: this.getDisplayColor(cindex),
+    	   		    			numele: valParts.length,
+                                pid: key
+                            }));
+    	   		    		cindex++;
+    	   		    	}
+    	   		    	processpathsStore.commitChanges();
+    		            
+    		            var gridId = Ext.id();
+    		        	var grid = new Ext.grid.EditorGridPanel({
+    		                store: processpathsStore,
+    		                id: gridId,
+    		                stripeRows: true,
+    		                cm: new Ext.grid.ColumnModel([new Ext.grid.RowNumberer(), {
+    		                	id: 'display',
+    		                    header: 'Display Color',
+    		                    width: 90,
+    		                    dataIndex: 'display',
+    		                    renderer: function(val) {
+		                    	  if(val) { 
+		                    		return '<center><div width="20px" height="8px" style="width:20px;height:8px;background-color:' + val + '"></div></center>';
+		                    	  } else {
+		                    		return "<center>None</center>";
+		                    	  }
+		                        }
+    		                }, {
+    		                	id: 'numele',
+    		                    header: 'Number of Elements',
+    		                    width: 130,
+    		                    dataIndex: 'numele',
+    		                    renderer: function(val) {
+  		                    	  if(val) { 
+  		                    		return '<center>' + val + '</center>';
+  		                    	  } else {
+  		                    		return "<center>0</center>";
+  		                    	  }
+  		                        }
+    		                }]),
+    		                autoHeight: true
+    		            });
+    		        	
+    	   				var processPathsPanel = new Ext.Panel({
+    		        		id: 'processPathsPanel',
+    		        		title: '<center>Select ' + wintitle + ' and click "Show Path" to display it.</center>',
+    		        		layout:'column',
+    		        		items:[
+    		        		       grid
+    		                      ],
+    		        		layoutConfig: {
+    		        			columns: 1
+    		        		},
+    		        		defaults: {
+    		        	        columnWidth: 1.0
+    		        	    }
+    		        	});
+    	   				
+    	   				
+    	   				var dialog = new Ext.Window({ 
+    		    			layout		: 'anchor',
+    		    			autoCreate	: true, 
+    		    			title		: wintitle, 
+    		    			height		: 200, 
+    		    			width		: 300, 
+    		    			modal		: true,
+    		    			collapsible	: false,
+    		    			fixedcenter	: true, 
+    		    			shadow		: true, 
+    		    			resizable   : true,
+    		    			proxyDrag	: true,
+    		    			autoScroll  : true,
+    		    			keys:[{
+    		    				key	: 27,
+    		    				fn	: function(){
+    		    						dialog.hide();
+    		    				}.bind(this)
+    		    			}],
+    		    			items		:[processPathsPanel],
+    		    			listeners	:{
+    		    				hide: function(){
+    		    					this.resetNodeColors();
+    		    					dialog.destroy();
+    		    				}.bind(this)				
+    		    			},
+    		    			buttons		: [{
+    		                    text: 'Show Path',
+    		                    handler: function(){
+    		                    	if(grid.getSelectionModel().getSelectedCell() != null) {
+    		                    		var selectedIndex = grid.getSelectionModel().getSelectedCell()[0];
+    		                    		var outValue = processpathsStore.getAt(selectedIndex).data['pid'];
+    		                        	this.setNodeColors(outValue, this.getDisplayColor(selectedIndex), pathobj[outValue]);
+    		                    	} else {
+                                        this.facade.raiseEvent({
+                                            type 		: ORYX.CONFIG.EVENT_NOTIFICATION_SHOW,
+                                            ntype		: 'info',
+                                            msg         : 'Please select a process path.',
+                                            title       : ''
+
+                                        });
+    		                    	}
+    		                    }.bind(this)
+    		                }, {
+    		                    text: 'Close',
+    		                    handler: function(){
+    		                    	this.resetNodeColors();
+    		                    	dialog.hide();
+    		                    }.bind(this)
+    		                }]
+    		    		});	
+    		    		dialog.show();
+    	   				
+    	   			} else {
+                           this.facade.raiseEvent({
+                               type 		: ORYX.CONFIG.EVENT_NOTIFICATION_SHOW,
+                               ntype		: 'error',
+                               msg         : 'Invalid Path data.',
+                               title       : ''
+
+                           });
+    	   			}
+    	   		} catch(e) {
+                       this.facade.raiseEvent({
+                           type 		: ORYX.CONFIG.EVENT_NOTIFICATION_SHOW,
+                           ntype		: 'error',
+                           msg         : 'Error finding Paths:\n' + e,
+                           title       : ''
+
+                       });
+
+    	   		}
+            }.bind(this),
+            failure: function(){
+                this.facade.raiseEvent({
+                    type 		: ORYX.CONFIG.EVENT_NOTIFICATION_SHOW,
+                    ntype		: 'error',
+                    msg         : 'Error finding Paths.',
+                    title       : ''
+
+                });
+            },
+            params: {
+            	action: 'getpathinfo',
+            	json: serial,
+            	sel: selectedId
+            }
+        });
+	},
+	getDisplayColor : function(cindex) {
+		var colors = ["#3399FF", "#FFCC33", "#FF99FF", "#6666CC", "#CCCCCC", "#66FF00", "#FFCCFF", "#0099CC", "#CC66FF", "#FFFF00", "#993300", "#0000CC", "#3300FF","#990000","#33CC00"];
+		return colors[cindex];
+	},
+	resetNodeColors : function() {
+		this._canvas.getChildren().each((function(child) {
+				this.setOriginalValues(child);
+		}).bind(this));
+	},
+	setOriginalValues : function(shape) {
+		if(shape instanceof ORYX.Core.Node || shape instanceof ORYX.Core.Edge) {
+    		shape.setProperty("oryx-bordercolor", shape.properties["oryx-origbordercolor"]);
+    		shape.setProperty("oryx-bgcolor", shape.properties["oryx-origbgcolor"]);
+    	}
+		shape.refresh();
+		if(shape.getChildren().size() > 0) {
+			for (var i = 0; i < shape.getChildren().size(); i++) {
+				if(shape.getChildren()[i] instanceof ORYX.Core.Node || shape.getChildren()[i] instanceof ORYX.Core.Edge) {
+					this.setOriginalValues(shape.getChildren()[i]);
+				}
+			}
+		}
+	},
+	setNodeColors : function(pathid, pathcolor, pathelements) {
+		this.resetNodeColors();
+		ORYX._canvas.getChildren().each((function(child) {
+				this.applyPathColors(child, pathcolor, pathelements);
+		}).bind(this));
+	},
+	applyPathColors : function(shape, color, elements) {
+		var elementsParts = elements.split("|");
+		if(shape instanceof ORYX.Core.Node || shape instanceof ORYX.Core.Edge) {
+			for(var i=0; i < elementsParts.length; i++) {
+    			var nextPart = elementsParts[i];
+    			if(shape.resourceId == nextPart) {
+    				shape.setProperty("oryx-bordercolor", color);
+    	    		shape.setProperty("oryx-bgcolor", color);
+    			}
+    		}
+    	}
+		shape.refresh();
+		if(shape.getChildren().size() > 0) {
+			for (var i = 0; i < shape.getChildren().size(); i++) {
+				if(shape.getChildren()[i] instanceof ORYX.Core.Node || shape.getChildren()[i] instanceof ORYX.Core.Edge) {
+					this.applyPathColors(shape.getChildren()[i], color, elements);
+				}
+			}
+		}
+	},
 	runSimulation : function() {
 		var simform = new Ext.form.FormPanel({
 			baseCls: 		'x-plain',
@@ -37242,11 +37592,13 @@ ORYX.Plugins.Simulation = Clazz.extend({
 						var instancesInput = simform.items.items[0].getValue();
 						var intervalInput = simform.items.items[1].getValue();
 						var intervalUnit = simform.items.items[2].getValue();
+						var serial = this.facade.getSerializedJSON();
 						Ext.Ajax.request({
 				            url: ORYX.PATH + 'simulation',
 				            method: 'POST',
 				            success: function(response) {
-				    	   		try {
+				    	   		
+								try {
 				    	   			if(response.responseText && response.responseText.length > 0 && response.responseText != "{}") {
 				    	   				this.facade.raiseEvent({
 				    	   		            type: ORYX.CONFIG.EVENT_SIMULATION_SHOW_RESULTS,
@@ -37282,8 +37634,8 @@ ORYX.Plugins.Simulation = Clazz.extend({
 				            },
 				            params: {
 				            	action: 'runsimulation',
-				             	json: this.facade.getSerializedJSON(),
-				            	ppdata: ORYX.PREPROCESSING,
+				            	 
+				            	json: serial,
 				            	numinstances: instancesInput,
 				            	interval: intervalInput,
 				            	intervalunit: intervalUnit
