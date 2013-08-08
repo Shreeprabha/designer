@@ -98,19 +98,16 @@ ORYX.Plugins.Simulation = Clazz.extend({
 						var instancesInput = simform.items.items[0].getValue();
 						var intervalInput = simform.items.items[1].getValue();
 						var intervalUnit = simform.items.items[2].getValue();
-						var serial = this.facade.getJSON();
-			
-						if(serial.stencil.id == "BPMNDiagram") {
-							console.log("In diagram");
-							var children = serial.childShapes; ;
-							console.log("Children", children);
-							for (var child in children) {
-								if(child.stencil.id == "StartNoneEvent")
-									console.log("Chcecking event", child.resourceId);
-							
+						var serial = this.facade.getJSON();					
+						console.log(serial);
+						if(serial.stencil.id == "BPMNDiagram"){
+							console.log("In digaram");
+							for (var child in serial.childShapes)
+							{
+								var c = child.toJSON();
+								console.log("here", c);
 							}
 						}
-
 
 					}.bind(this)
 				}

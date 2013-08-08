@@ -2601,6 +2601,9 @@ Ext.extend(Ext.form.ComplexListField, Ext.form.TriggerField,  {
 			
 			if (type == ORYX.CONFIG.TYPE_STRING) {
 				editor = new Ext.form.TextField({ allowBlank : this.items[i].optional(), width : width});
+			} 
+			else if (type == ORYX.CONFIG.TYPE_INTEGER) {
+				editor = new Ext.form.TextField({ allowBlank : this.items[i].optional(), width : width});
 			} else if (type == ORYX.CONFIG.TYPE_CHOICE) {				
 				var items = this.items[i].items();
 				var select = ORYX.Editor.graft("http://www.w3.org/1999/xhtml", parent, ['select', {style:'display:none'}]);

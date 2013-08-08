@@ -1184,6 +1184,7 @@ var b=this.items[c].width();
 var g=this.items[c].type();
 var e;
 if(g==ORYX.CONFIG.TYPE_STRING){e=new Ext.form.TextField({allowBlank:this.items[c].optional(),width:b})
+}else{if(g==ORYX.CONFIG.TYPE_INTEGER){e=new Ext.form.TextField({allowBlank:this.items[c].optional(),width:b})
 }else{if(g==ORYX.CONFIG.TYPE_CHOICE){var f=this.items[c].items();
 var l=ORYX.Editor.graft("http://www.w3.org/1999/xhtml",m,["select",{style:"display:none"}]);
 var k=new Ext.Template('<option value="{value}">{value}</option>');
@@ -1208,7 +1209,7 @@ k.append(l,{value:n[0]})
 e=new Ext.form.ComboBox({editable:false,typeAhead:true,triggerAction:"all",transform:l,lazyRender:true,msgTarget:"title",width:b})
 }else{if(g==ORYX.CONFIG.TYPE_BOOLEAN){e=new Ext.form.Checkbox({width:b})
 }else{if(g=="xpath"){e=new Ext.form.TextField({allowBlank:this.items[c].optional(),width:b})
-}}}}}h.push({id:a,header:d,dataIndex:a,resizable:true,editor:e,width:b})
+}}}}}}h.push({id:a,header:d,dataIndex:a,resizable:true,editor:e,width:b})
 }return new Ext.grid.ColumnModel(h)
 },afterEdit:function(a){a.grid.getStore().commitChanges()
 },beforeEdit:function(h){var a=this.grid.getView().getScrollState();

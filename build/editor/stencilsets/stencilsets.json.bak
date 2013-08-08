@@ -1,0 +1,26 @@
+[
+       {
+            "title":"Ingest",
+            "namespace":"http://b3mn.org/stencilset/ingest#",
+            "description":"BPMN 2.0 stencil set specification for processes.",
+            "uri":"/ingest/ingest.json",
+            "icon_url":"/ingest/ingest.png",
+            "visible":true
+       },
+       {
+            "title":"Migration",
+            "namespace":"http://b3mn.org/stencilset/migration#",
+            "description":"BPMN 2.0 stencil set specification for processes.",
+            "uri":"/migration/migration.json",
+            "icon_url":"/migration/migration.png",
+            "visible":true
+        },
+	{
+            "title":"Access",
+            "namespace":"http://b3mn.org/stencilset/access#",
+            "description":"Archive stencil set specification for processes.",
+            "uri":"/access/access.json",
+            "icon_url":"/access/access.png",
+            "visible":true
+        }
+]

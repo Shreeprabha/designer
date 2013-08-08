@@ -1923,7 +1923,27 @@ ORYX.CONFIG.TYPE_URL =					"url";
 ORYX.CONFIG.TYPE_DIAGRAM_LINK =			"diagramlink";
 ORYX.CONFIG.TYPE_COMPLEX =				"complex";
 ORYX.CONFIG.TYPE_TEXT =					"text";
-	
+
+ ORYX.CONFIG.TYPE_DYNAMICCHOICE  = "dchoice";
+ORYX.CONFIG.TYPE_DYNAMICDATAINPUT =     "ddatainput";
+ORYX.CONFIG.TYPE_DYNAMICDATAOUTPUT  = "ddataoutput";
+ORYX.CONFIG.TYPE_DYNAMICGATEWAYCONNECTIONS="dgatewayconnections";
+ORYX.CONFIG.TYPE_VARDEF = "vardef";
+ORYX.CONFIG.TYPE_EXPRESSION = "expression";
+ORYX.CONFIG.TYPE_CALLEDELEMENT = "calledelement";
+ORYX.CONFIG.TYPE_CUSTOM = "custom";
+ORYX.CONFIG.TYPE_ACTION = "action";
+ORYX.CONFIG.TYPE_GLOBAL = "global";
+ORYX.CONFIG.TYPE_IMPORT = "import";
+ORYX.CONFIG.TYPE_REASSIGNMENT = "reassignment";
+ORYX.CONFIG.TYPE_NOTIFICATIONS = "notifications";
+ORYX.CONFIG.TYPE_DATAINPUT = "datainput";
+ORYX.CONFIG.TYPE_DATAINPUT_SINGLE = "datainputsingle";
+ORYX.CONFIG.TYPE_DATAOUTPUT = "dataoutput";
+ORYX.CONFIG.TYPE_DATAOUTPUT_SINGLE = "dataoutputsingle";
+ORYX.CONFIG.TYPE_DATAASSIGNMENT = "dataassignment";
+ORYX.CONFIG.TYPE_VISUALDATAASSIGNMENTS = "visualdatatassignment";
+
 	/* Vertical line distance of multiline labels */
 ORYX.CONFIG.LABEL_LINE_DISTANCE =		2;
 ORYX.CONFIG.LABEL_DEFAULT_LINE_HEIGHT =	12;
@@ -4921,7 +4941,7 @@ function _evilSafariHack(serializedXML) {
 	
 	return dom;
 }
-	
+	                                                 
 /**
  * Copyright (c) 2006
  * Martin Czuchra, Nicolas Peters, Daniel Polak, Willi Tscheschner
@@ -4934,7 +4954,7 @@ function _evilSafariHack(serializedXML) {
  * Software is furnished to do so, subject to the following conditions:
  *
  * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
+ * all copies or substantial portions of the Softwa re.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -5512,6 +5532,19 @@ ORYX.Core.StencilSet.ComplexPropertyItem = Clazz.extend({
 			jsonItem.type = jsonItem.type.toLowerCase();
 		}
 		
+		if (jsonItem.type === ORYX.CONFIG.TYPE_COMPLEX)	{	
+			if (jsonItem.complexItems && jsonItem.complexItems instanceof Array) {
+				jsonItem.complexItems.each((function(jsonComplexItem){
+				   try {
+						this._items[jsonComplexItem.id] = new ORYX.Core.StencilSet.ComplexPropertyItem(jsonComplexItem, namespace, this);
+					} catch(e) {
+						ORYX.Log.error("error while initializing complex items for " + jsonItem.title);
+						ORYX.Log.error(e);
+					}
+				}).bind(this));
+			}
+		}
+
 		if(jsonItem.type === ORYX.CONFIG.TYPE_CHOICE) {
 			if(jsonItem.items && jsonItem.items instanceof Array) {
 				jsonItem.items.each((function(item) {

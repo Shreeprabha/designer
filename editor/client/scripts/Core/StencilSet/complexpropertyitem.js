@@ -67,6 +67,19 @@ ORYX.Core.StencilSet.ComplexPropertyItem = Clazz.extend({
 			jsonItem.type = jsonItem.type.toLowerCase();
 		}
 		
+		if (jsonItem.type === ORYX.CONFIG.TYPE_COMPLEX)	{	
+			if (jsonItem.complexItems && jsonItem.complexItems instanceof Array) {
+				jsonItem.complexItems.each((function(jsonComplexItem){
+				   try {
+						this._items[jsonComplexItem.id] = new ORYX.Core.StencilSet.ComplexPropertyItem(jsonComplexItem, namespace, this);
+					} catch(e) {
+						ORYX.Log.error("error while initializing complex items for " + jsonItem.title);
+						ORYX.Log.error(e);
+					}
+				}).bind(this));
+			}
+		}
+
 		if(jsonItem.type === ORYX.CONFIG.TYPE_CHOICE) {
 			if(jsonItem.items && jsonItem.items instanceof Array) {
 				jsonItem.items.each((function(item) {

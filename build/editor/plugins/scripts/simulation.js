@@ -98,18 +98,16 @@ ORYX.Plugins.Simulation = Clazz.extend({
 						var instancesInput = simform.items.items[0].getValue();
 						var intervalInput = simform.items.items[1].getValue();
 						var intervalUnit = simform.items.items[2].getValue();
-						var serial = this.facade.getJSON();
-			
-						if(serial.stencil.id == "BPMNDiagram") {
-							console.log("In diagram");
-							 jQuery.each(serial.childShapes, function() {
-								console.log("Mine is " + this + ".");
-									// will stop running after "three"
-								});
-							
+						var serial = this.facade.getJSON();					
+						console.log(serial);
+						if(serial.stencil.id == "BPMNDiagram"){
+							console.log("In digaram");
+							for (var child in serial.childShapes)
+							{
+								var c = child.toJSON();
+								console.log("here", c);
 							}
 						}
-
 
 					}.bind(this)
 				}
