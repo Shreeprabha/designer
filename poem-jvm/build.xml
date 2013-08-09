@@ -14,7 +14,6 @@
 	<property name="lib-dir" value="${server-root-dir}/lib" />
 	<property name="data-dir" value="${server-root-dir}/data" />
 	
-	<!--<property name="repository-dir" value="${server-root-dir}/src/javascript/repository" />-->
 	<property name="repository2-dir" value="${server-root-dir}/src/javascript/repository2" />
 	<property name="config-dir" value="${server-root-dir}/etc" />
 	
