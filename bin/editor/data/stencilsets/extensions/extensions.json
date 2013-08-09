@@ -1,0 +1,57 @@
+{
+	"extensions": [
+		{
+			"title":"Ingest",
+			"namespace":"http://oryx-editor.org/stencilsets/extensions/ingest/ingest#",
+			"description":"Adds support for a basic subset of Choreography-Diagrams to BPMN 2.0.",
+			"definition":"ingest/ingest.json",
+			"extends":"http://b3mn.org/stencilset/ingest"
+		},
+		{
+			"title":"Migration",
+			"namespace":"http://oryx-editor.org/stencilsets/extensions/migration/migration#",
+			"description":"Adds support for a basic subset of Choreography-Diagrams to BPMN 2.0.",
+			"definition":"migration/migration.json",
+			"extends":"http://b3mn.org/stencilset/migration#"
+		},
+		{
+			"title":"Access",
+			"namespace":"http://oryx-editor.org/stencilsets/extensions/access/access#",
+			"description":"Adds support for a basic subset of Choreography-Diagrams to BPMN 2.0.",
+			"definition":"access/access.json",
+			"extends":"http://b3mn.org/stencilset/access#"
+		}
+	],
+	"perspectives": [
+		{
+			"title":"Ingest",
+			"namespace":"http://oryx-editor.org/stencilsets/perspectives/archive#",
+			"description":"Academic perspective on BPMN. Features the complete standard.",
+			"stencilset":"http://b3mn.org/stencilset/ingest#",
+			"removeExtensions":[
+				"http://oryx-editor.org/stencilsets/extensions/migration#",
+				"http://oryx-editor.org/stencilsets/extensions/access#"
+			]
+		},
+		{
+			"title":"Migration",
+			"namespace":"http://oryx-editor.org/stencilsets/perspectives/archive#",
+			"description":"BPMN for beginners. Features a basic subset of the standard.",
+			"stencilset":"http://b3mn.org/stencilset/migration#",
+			"removeExtensions": [
+				"http://oryx-editor.org/stencilsets/extensions/ingest#",
+				"http://oryx-editor.org/stencilsets/extensions/access#"
+			]
+		},
+		{
+			"title":"Access",
+			"namespace":"http://oryx-editor.org/stencilsets/perspectives/archive#",
+			"description":"Academic perspective on BPMN 2.0. Features the complete standard.",
+			"stencilset":"http://b3mn.org/stencilset/access#",
+			"removeExtensions" : [
+				"http://oryx-editor.org/stencilsets/extensions/migration#",
+				"http://oryx-editor.org/stencilsets/extensions/ingest#"
+			]
+		}
+	]
+}

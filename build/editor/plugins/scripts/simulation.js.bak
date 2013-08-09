@@ -104,7 +104,7 @@ ORYX.Plugins.Simulation = Clazz.extend({
 							console.log("In digaram");
 							for (var child in serial.childShapes)
 							{
-								console.log("here", child);
+								console.log("here", child.toJSON);
 							}
 						}
 
