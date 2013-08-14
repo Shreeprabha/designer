@@ -1,0 +1,135 @@
+/**
+ * Copyright (c) 2009
+ * Philipp Giese, Sven Wagner-Boysen
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
+package de.hpi.ingest.model.data_object;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlType;
+import javax.xml.namespace.QName;
+
+import de.hpi.ingest.model.RootElement;
+
+
+
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "tDataStore", propOrder = {
+	"dataState",
+	"name",
+	"capacity",
+	"isUnlimited"
+})
+public class DataStore
+    extends RootElement
+{
+
+    protected DataState dataState;
+    
+    @XmlAttribute
+    protected String name;
+    @XmlAttribute
+    protected int capacity;
+    @XmlAttribute
+    protected boolean isUnlimited;
+    
+    /* Getter & Setter */
+    
+    public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public int getCapacity() {
+		return capacity;
+	}
+
+	public void setCapacity(int capacity) {
+		this.capacity = capacity;
+	}
+
+	public boolean isUnlimited() {
+		return isUnlimited;
+	}
+
+	public void setUnlimited(boolean isUnlimited) {
+		this.isUnlimited = isUnlimited;
+	}
+
+	@XmlAttribute
+    protected QName itemSubjectRef;
+
+    /**
+     * Gets the value of the dataState property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link DataState }
+     *     
+     */
+    public DataState getDataState() {
+        return dataState;
+    }
+
+    /**
+     * Sets the value of the dataState property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link DataState }
+     *     
+     */
+    public void setDataState(DataState value) {
+        this.dataState = value;
+    }
+
+    /**
+     * Gets the value of the itemSubjectRef property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link QName }
+     *     
+     */
+    public QName getItemSubjectRef() {
+        return itemSubjectRef;
+    }
+
+    /**
+     * Sets the value of the itemSubjectRef property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link QName }
+     *     
+     */
+    public void setItemSubjectRef(QName value) {
+        this.itemSubjectRef = value;
+    }
+
+}

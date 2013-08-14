@@ -1,0 +1,475 @@
+/**
+ * Copyright (c) 2009
+ * Philipp Giese, Sven Wagner-Boysen
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
+package de.hpi.ingest.model.activity;
+
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementRef;
+import javax.xml.bind.annotation.XmlElementRefs;
+import javax.xml.bind.annotation.XmlIDREF;
+import javax.xml.bind.annotation.XmlSchemaType;
+import javax.xml.bind.annotation.XmlSeeAlso;
+import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.XmlType;
+
+import de.hpi.ingest.model.FlowNode;
+import de.hpi.ingest.model.activity.resource.ActivityResource;
+import de.hpi.ingest.model.activity.resource.HumanPerformer;
+import de.hpi.ingest.model.activity.resource.Performer;
+import de.hpi.ingest.model.activity.resource.PotentialOwner;
+import de.hpi.ingest.model.connector.DataInputAssociation;
+import de.hpi.ingest.model.connector.DataOutputAssociation;
+import de.hpi.ingest.model.data_object.DataInput;
+import de.hpi.ingest.model.data_object.DataOutput;
+import de.hpi.ingest.model.data_object.InputOutputSpecification;
+import de.hpi.ingest.model.data_object.InputSet;
+import de.hpi.ingest.model.data_object.OutputSet;
+import de.hpi.ingest.model.misc.IoOption;
+import de.hpi.ingest.model.misc.Property;
+import de.hpi.diagram.OryxUUID;
+
+
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "tActivity", propOrder = {
+    "ioSpecification",
+    "property",
+    "dataInputAssociation",
+    "dataOutputAssociation",
+    "activityResource"
+})
+@XmlSeeAlso({
+    SubProcess.class,
+    Task.class
+  
+})
+public abstract class Activity
+    extends FlowNode
+{
+
+    protected InputOutputSpecification ioSpecification;
+    protected List<Property> property;
+	
+	@XmlElement(name = "dataInputAssociation", type = DataInputAssociation.class)
+    protected List<DataInputAssociation> dataInputAssociation;
+	
+	@XmlElement(name = "dataOutputAssociation", type = DataOutputAssociation.class)
+    protected List<DataOutputAssociation> dataOutputAssociation;
+	
+    @XmlElementRefs({
+    	@XmlElementRef(type = ActivityResource.class),
+    	@XmlElementRef(type = Performer.class),
+    	@XmlElementRef(type = HumanPerformer.class),
+    	@XmlElementRef(type = PotentialOwner.class)
+    })
+	protected List<ActivityResource> activityResource;
+    
+	@XmlAttribute
+    protected BigInteger startQuantity;
+    
+	@XmlAttribute
+    protected BigInteger completionQuantity;
+    
+	@XmlAttribute(name = "default")
+    @XmlIDREF
+    @XmlSchemaType(name = "IDREF")
+    protected Object _default;
+	
+	@XmlTransient
+	private List<HashMap<String, IoOption>> inputSetInfo;
+	
+	@XmlTransient
+	private List<HashMap<String, IoOption>> outputSetInfo;
+	
+	/**
+	 * Default constructor
+	 */
+	public Activity() {
+		
+	}
+	
+	/**
+	 * Copy constructor
+	 * 
+	 * @param act
+	 * 		The {@link Activity} to copy
+	 */
+	public Activity(Activity act) {
+		super(act);
+		
+		if(act.getProperty().size() > 0)
+			this.getProperty().addAll(act.getProperty());
+		
+		if(act.getDataInputAssociation().size() > 0)
+			this.getDataInputAssociation().addAll(act.getDataInputAssociation());
+		
+		if(act.getDataOutputAssociation().size() > 0)
+			this.getDataOutputAssociation().addAll(act.getDataOutputAssociation());
+		
+		if(act.getActivityResource().size() > 0)
+			this.getActivityResource().addAll(act.getActivityResource());
+		
+		
+		if(act.getInputSetInfo().size() > 0)
+			this.getInputSetInfo().addAll(act.getInputSetInfo());
+		
+		if(act.getOutputSetInfo().size() > 0)
+			this.getOutputSetInfo().addAll(act.getOutputSetInfo());
+		
+		this.setIoSpecification(act.getIoSpecification());
+		this.setStartQuantity(act.getStartQuantity());
+		this.setCompletionQuantity(act.getCompletionQuantity());
+		this.setDefault(act.getDefault());
+	}
+	
+	/* Transformation logic methods */
+	
+	/**
+	 * Determines and sets the {@link InputOutputSpecification} of an activity.
+	 * 
+	 * Per default there exists exactly one {@link InputSet} and one {@link OutputSet}.
+	 * All input and output data objects are associated by theses sets. Both
+	 * sets are linked towards each other to define a default IORule. 
+	 */
+	public void determineIoSpecification() {
+		
+		/* Process data inputs */
+		InputSet inputSet = new InputSet();
+		inputSet.setName("DefaultInputSet");
+		inputSet.setId(OryxUUID.generate());
+		for(DataInputAssociation dia : this.getDataInputAssociation()) {
+			
+			if(dia.getSourceRef() instanceof DataInput) {
+				DataInput input = (DataInput) dia.getSourceRef();
+				
+				for(HashMap<String, IoOption> inputSetDesc : this.getInputSetInfo()) {
+					IoOption opt = inputSetDesc.get(input.getName());
+					if(opt != null) {
+						/* Append to appropriate list of data inputs */
+						inputSet.getDataInputRefs().add(input);
+						
+						if(opt.isOptional())
+							inputSet.getOptionalInputRefs().add(input);
+						
+						if(opt.isWhileExecuting())
+							inputSet.getWhileExecutingInputRefs().add(input);
+					}
+				}
+			}
+		}
+		
+		/* Process data outputs */
+		OutputSet outputSet = new OutputSet();
+		outputSet.setName("DefaultOutputSet");
+		outputSet.setId(OryxUUID.generate());
+		for(DataOutputAssociation dia : this.getDataOutputAssociation()) {
+			
+			if(dia.getTargetRef() instanceof DataOutput) {
+				DataOutput output = (DataOutput) dia.getTargetRef();
+				
+				for(HashMap<String, IoOption> outputSetDesc : this.getOutputSetInfo()) {
+					IoOption opt = outputSetDesc.get(output.getName());
+					if(opt != null) {
+						/* Append to appropriate list of data inputs */
+						outputSet.getDataOutputRefs().add(output);
+						
+						if(opt.isOptional())
+							outputSet.getOptionalOutputRefs().add(output);
+						
+						if(opt.isWhileExecuting())
+							outputSet.getWhileExecutingOutputRefs().add(output);
+					}
+				}
+			}
+		}
+		
+		/* Link both sets against each other to specifies a default IORule and
+		 * dependency between them. */
+		
+		inputSet.getOutputSetRefs().add(outputSet);
+		outputSet.getInputSetRefs().add(inputSet);
+		
+		/* Add input set to specification */
+		if(inputSet.getDataInputRefs().size() > 0 && outputSet.getDataOutputRefs().size() > 0) {
+			InputOutputSpecification ioSpec = new InputOutputSpecification();
+			ioSpec.setId(OryxUUID.generate());
+			ioSpec.getInputSet().add(inputSet);
+			ioSpec.getOutputSet().add(outputSet);
+			ioSpec.getDataInput();
+			ioSpec.getDataOutput();
+			this.setIoSpecification(ioSpec);
+		}
+	}
+	
+	
+	/* Getter & Setter */
+	/**
+     * Gets the value of the ioSpecification property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link InputOutputSpecification }
+     *     
+     */
+    public InputOutputSpecification getIoSpecification() {
+        return ioSpecification;
+    }
+
+    /**
+     * Sets the value of the ioSpecification property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link InputOutputSpecification }
+     *     
+     */
+    public void setIoSpecification(InputOutputSpecification value) {
+        this.ioSpecification = value;
+    }
+
+    /**
+     * Gets the value of the property property.
+     * 
+     * <p>
+     * This accessor method returns a reference to the live list,
+     * not a snapshot. Therefore any modification you make to the
+     * returned list will be present inside the JAXB object.
+     * This is why there is not a <CODE>set</CODE> method for the property property.
+     * 
+     * <p>
+     * For example, to add a new item, do as follows:
+     * <pre>
+     *    getProperty().add(newItem);
+     * </pre>
+     * 
+     * 
+     * <p>
+     * Objects of the following type(s) are allowed in the list
+     * {@link Property }
+     * 
+     * 
+     */
+    public List<Property> getProperty() {
+        if (property == null) {
+            property = new ArrayList<Property>();
+        }
+        return this.property;
+    }
+
+    /**
+     * Gets the value of the dataInputAssociation property.
+     * 
+     * <p>
+     * This accessor method returns a reference to the live list,
+     * not a snapshot. Therefore any modification you make to the
+     * returned list will be present inside the JAXB object.
+     * This is why there is not a <CODE>set</CODE> method for the dataInputAssociation property.
+     * 
+     * <p>
+     * For example, to add a new item, do as follows:
+     * <pre>
+     *    getDataInputAssociation().add(newItem);
+     * </pre>
+     * 
+     * 
+     * <p>
+     * Objects of the following type(s) are allowed in the list
+     * {@link DataInputAssociation }
+     * 
+     * 
+     */
+    public List<DataInputAssociation> getDataInputAssociation() {
+        if (dataInputAssociation == null) {
+            dataInputAssociation = new ArrayList<DataInputAssociation>();
+        }
+        return this.dataInputAssociation;
+    }
+
+    /**
+     * Gets the value of the dataOutputAssociation property.
+     * 
+     * <p>
+     * This accessor method returns a reference to the live list,
+     * not a snapshot. Therefore any modification you make to the
+     * returned list will be present inside the JAXB object.
+     * This is why there is not a <CODE>set</CODE> method for the dataOutputAssociation property.
+     * 
+     * <p>
+     * For example, to add a new item, do as follows:
+     * <pre>
+     *    getDataOutputAssociation().add(newItem);
+     * </pre>
+     * 
+     * 
+     * <p>
+     * Objects of the following type(s) are allowed in the list
+     * {@link DataOutputAssociation }
+     * 
+     * 
+     */
+    public List<DataOutputAssociation> getDataOutputAssociation() {
+        if (dataOutputAssociation == null) {
+            dataOutputAssociation = new ArrayList<DataOutputAssociation>();
+        }
+        return this.dataOutputAssociation;
+    }
+
+    /**
+     * Gets the value of the activityResource property.
+     * 
+     * <p>
+     * This accessor method returns a reference to the live list,
+     * not a snapshot. Therefore any modification you make to the
+     * returned list will be present inside the JAXB object.
+     * This is why there is not a <CODE>set</CODE> method for the activityResource property.
+     * 
+     * <p>
+     * For example, to add a new item, do as follows:
+     * <pre>
+     *    getActivityResource().add(newItem);
+     * </pre>
+     * 
+     * 
+     * <p>
+     * Objects of the following type(s) are allowed in the list
+     * {@code <}{@link HumanPerformer }{@code >}
+     * {@code <}{@link Performer }{@code >}
+     * {@code <}{@link PotentialOwner }{@code >}
+     * {@code <}{@link ActivityResource }{@code >}
+     * 
+     * 
+     */
+    public List<ActivityResource> getActivityResource() {
+        if (activityResource == null) {
+            activityResource = new ArrayList<ActivityResource>();
+        }
+        return this.activityResource;
+    }
+
+    /**
+     * Gets the value of the startQuantity property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link BigInteger }
+     *     
+     */
+    public BigInteger getStartQuantity() {
+        if (startQuantity == null) {
+            return new BigInteger("1");
+        } else {
+            return startQuantity;
+        }
+    }
+
+    /**
+     * Sets the value of the startQuantity property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link BigInteger }
+     *     
+     */
+    public void setStartQuantity(BigInteger value) {
+        this.startQuantity = value;
+    }
+
+    /**
+     * Gets the value of the completionQuantity property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link BigInteger }
+     *     
+     */
+    public BigInteger getCompletionQuantity() {
+        if (completionQuantity == null) {
+            return new BigInteger("1");
+        } else {
+            return completionQuantity;
+        }
+    }
+
+    /**
+     * Sets the value of the completionQuantity property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link BigInteger }
+     *     
+     */
+    public void setCompletionQuantity(BigInteger value) {
+        this.completionQuantity = value;
+    }
+
+    /**
+     * Gets the value of the default property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link Object }
+     *     
+     */
+    public Object getDefault() {
+        return _default;
+    }
+
+    /**
+     * Sets the value of the default property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link Object }
+     *     
+     */
+    public void setDefault(Object value) {
+        this._default = value;
+    }
+
+
+	/**
+	 * @return the inputSetInfo
+	 */
+	public List<HashMap<String, IoOption>> getInputSetInfo() {
+		if(this.inputSetInfo == null)
+			this.inputSetInfo = new ArrayList<HashMap<String,IoOption>>();
+		return inputSetInfo; 
+	}
+
+
+	/**
+	 * @return the outputSetInfo
+	 */
+	public List<HashMap<String, IoOption>> getOutputSetInfo() {
+		if(this.outputSetInfo == null) 
+			this.outputSetInfo = new ArrayList<HashMap<String,IoOption>>();
+		return outputSetInfo;
+	}
+}

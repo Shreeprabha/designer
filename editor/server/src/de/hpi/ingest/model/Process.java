@@ -1,0 +1,273 @@
+/**
+ * Copyright (c) 2009
+ * Philipp Giese, Sven Wagner-Boysen
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
+package de.hpi.ingest.model;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementRef;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.XmlType;
+import javax.xml.namespace.QName;
+
+import de.hpi.ingest.annotations.ChildElements;
+import de.hpi.ingest.model.activity.AdHocSubProcess;
+
+import de.hpi.ingest.model.activity.SubProcess;
+import de.hpi.ingest.model.activity.Task;
+import de.hpi.ingest.model.activity.type.ManualTask;
+import de.hpi.ingest.model.activity.type.UserTask;
+import de.hpi.ingest.model.connector.SequenceFlow;
+import de.hpi.ingest.model.data_object.DataObject;
+import de.hpi.ingest.model.data_object.DataStore;
+import de.hpi.ingest.model.data_object.Message;
+
+import de.hpi.ingest.model.event.EndEvent;
+import de.hpi.ingest.model.event.Event;
+import de.hpi.ingest.model.event.StartEvent;
+import de.hpi.ingest.model.gateway.ExclusiveGateway;
+import de.hpi.ingest.model.gateway.ParallelGateway;
+import de.hpi.ingest.model.misc.ProcessType;
+import de.hpi.ingest.model.participant.LaneSet;
+
+
+
+@XmlRootElement(name = "process")
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "tProcess", propOrder = {
+
+    "laneSet",
+    "flowElement",
+    "supports"
+})
+public class Process
+    extends CallableElement
+{
+	@XmlElementRef
+    protected List<FlowElement> flowElement;
+
+    protected List<QName> supports;
+    @XmlAttribute
+    protected ProcessType processType;
+    @XmlAttribute
+    protected Boolean isClosed;
+    @XmlAttribute
+    protected QName definitionalCollaborationRef;
+    
+    @XmlElement(type = LaneSet.class)
+    protected List<LaneSet> laneSet;
+    
+    @XmlTransient
+    private SubProcess subprocessRef; 
+    
+    
+    public boolean isSubprocess() {
+    	return this.subprocessRef != null;
+    }
+    
+    /**
+     * Adds the child to the process's flow elements if possible.
+     */
+    public void addChild(BaseElement child) {
+    	if(child instanceof FlowElement) {
+    		this.getFlowElement().add((FlowElement) child);
+    	}
+    }
+   
+    /* Getter & Setter */
+    public String getName() {
+    	if(this.isSubprocess()) {
+    		return this.getSubprocessRef().getName();
+    	}
+    	return super.getName();
+    }
+    
+//    @XmlID
+    public String getId() {
+    	if(this.isSubprocess()) {
+    		return this.getSubprocessRef().getId();
+    	}
+    	return super.getId();
+    }
+    
+    public List<LaneSet> getLaneSet() {
+    	if(this.laneSet == null) {
+    		this.laneSet = new ArrayList<LaneSet>();
+    	}
+    	return this.laneSet;
+    }
+    
+
+
+    /**
+     * Gets the value of the flowElement property.
+     * 
+     * <p>
+     * This accessor method returns a reference to the live list,
+     * not a snapshot. Therefore any modification you make to the
+     * returned list will be present inside the JAXB object.
+     * This is why there is not a <CODE>set</CODE> method for the flowElement property.
+     * 
+     * <p>
+     * For example, to add a new item, do as follows:
+     * <pre>
+     *    getFlowElement().add(newItem);
+     * </pre>
+     * 
+     * 
+     * <p>
+     * Objects of the following type(s) are allowed in the list
+     * {@link JAXBElement }{@code <}{@link ManualTask }{@code >}
+
+
+     * {@link JAXBElement }{@code <}{@link EndEvent }{@code >}
+
+     * {@link JAXBElement }{@code <}{@link FlowElement }{@code >}
+     * {@link JAXBElement }{@code <}{@link CallActivity }{@code >}
+     * {@link JAXBElement }{@code <}{@link ComplexGateway }{@code >}
+    
+     * {@link JAXBElement }{@code <}{@link StartEvent }{@code >}
+     * {@link JAXBElement }{@code <}{@link ExclusiveGateway }{@code >}
+     * {@link JAXBElement }{@code <}{@link BusinessRuleTask }{@code >}
+     * {@link JAXBElement }{@code <}{@link ScriptTask }{@code >}
+     * {@link JAXBElement }{@code <}{@link InclusiveGateway }{@code >}
+     * {@link JAXBElement }{@code <}{@link DataObject }{@code >}
+     * {@link JAXBElement }{@code <}{@link Event }{@code >}
+     * {@link JAXBElement }{@code <}{@link ServiceTask }{@code >}
+
+     * {@link JAXBElement }{@code <}{@link DataStore }{@code >}
+     * {@link JAXBElement }{@code <}{@link SubProcess }{@code >}
+
+     * {@link JAXBElement }{@code <}{@link UserTask }{@code >}
+     * {@link JAXBElement }{@code <}{@link SequenceFlow }{@code >}
+     * {@link JAXBElement }{@code <}{@link EventBasedGateway }{@code >}
+     * {@link JAXBElement }{@code <}{@link AdHocSubProcess }{@code >}
+     * {@link JAXBElement }{@code <}{@link SendTask }{@code >}
+
+     * {@link JAXBElement }{@code <}{@link ReceiveTask }{@code >}
+     * {@link JAXBElement }{@code <}{@link TImplicitThrowEvent }{@code >}
+     * {@link JAXBElement }{@code <}{@link ParallelGateway }{@code >}
+     * {@link JAXBElement }{@code <}{@link Task }{@code >}
+     * 
+     * 
+     */
+    @ChildElements
+    public List<FlowElement> getFlowElement() {
+        if (flowElement == null) {
+            flowElement = new ArrayList<FlowElement>();
+        }
+        return this.flowElement;
+    }
+
+    /**
+     * Gets the value of the isClosed property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link Boolean }
+     *     
+     */
+    public boolean isIsClosed() {
+        if (isClosed == null) {
+            return false;
+        } else {
+            return isClosed;
+        }
+    }
+
+    /**
+     * Sets the value of the isClosed property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link Boolean }
+     *     
+     */
+    public void setIsClosed(Boolean value) {
+        this.isClosed = value;
+    }
+
+    /**
+     * Gets the value of the definitionalCollaborationRef property.
+     * 
+     * @return
+     *     possible object is
+     *     {@link QName }
+     *     
+     */
+    public QName getDefinitionalCollaborationRef() {
+        return definitionalCollaborationRef;
+    }
+
+    /**
+     * Sets the value of the definitionalCollaborationRef property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link QName }
+     *     
+     */
+    public void setDefinitionalCollaborationRef(QName value) {
+        this.definitionalCollaborationRef = value;
+    }
+
+	/**
+	 * @param subprocessRef the subprocessRef to set
+	 */
+	public void setSubprocessRef(SubProcess subprocessRef) {
+		this.subprocessRef = subprocessRef;
+	}
+
+	/**
+	 * @return the subprocessRef
+	 */
+	public SubProcess getSubprocessRef() {
+		return subprocessRef;
+	}
+
+	/**
+	 * @return the processType
+	 */
+	public ProcessType getProcessType() {
+		/* None as default value */
+		if(this.processType == null)
+			this.processType = ProcessType.NONE;
+		
+		return processType;
+	}
+
+	/**
+	 * @param processType the processType to set
+	 */
+	public void setProcessType(ProcessType processType) {
+		this.processType = processType;
+	}
+
+}
